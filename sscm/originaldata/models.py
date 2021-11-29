@@ -21,13 +21,13 @@ class OriginalMember(BaseModel):
     poznamka = models.CharField(max_length=1000, blank=True)
 
     class Meta:
-        ordering = ['surname']
-        default_related_name = 'original_member'
+        ordering = ["surname"]
+        default_related_name = "original_member"
         verbose_name = "Pôvodný údaj členov"
         verbose_name_plural = "Pôvodné údaje členov"
         indexes = [
-            models.Index(fields=['surname']),
+            models.Index(fields=["surname"]),
         ]
 
     def __str__(self):
-        return f'{self.firstname} {self.surname}'
+        return f"{self.firstname} {self.surname}"

@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group
-from django.db.models.signals import post_save
 
 from sscm.core.admin import BaseAdmin
 from .models import OriginalMember

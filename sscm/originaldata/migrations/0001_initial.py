@@ -11,43 +11,81 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('parishes', '0001_initial'),
+        ("parishes", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OriginalMember',
+            name="OriginalMember",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('status_changed', model_utils.fields.MonitorField(default=django.utils.timezone.now, monitor='status', verbose_name='status changed')),
-                ('is_removed', models.BooleanField(default=False)),
-                ('firstname', models.CharField(blank=True, max_length=100)),
-                ('surname', models.CharField(blank=True, max_length=100)),
-                ('titul', models.CharField(blank=True, max_length=50)),
-                ('titul2', models.CharField(blank=True, max_length=50)),
-                ('cl_cislo', models.IntegerField()),
-                ('druh_clenstva', models.CharField(blank=True, max_length=50)),
-                ('datum_nar', models.DateField(null=True)),
-                ('povolanie', models.CharField(blank=True, max_length=100)),
-                ('adresa', models.CharField(blank=True, max_length=500)),
-                ('psc', models.CharField(blank=True, max_length=100)),
-                ('obec', models.CharField(blank=True, max_length=100)),
-                ('datum_vstupu', models.DateField(null=True)),
-                ('status', models.CharField(blank=True, max_length=100)),
-                ('poznamka', models.CharField(blank=True, max_length=1000)),
-                ('farnost_id', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='original_member', to='parishes.parish')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "status_changed",
+                    model_utils.fields.MonitorField(
+                        default=django.utils.timezone.now,
+                        monitor="status",
+                        verbose_name="status changed",
+                    ),
+                ),
+                ("is_removed", models.BooleanField(default=False)),
+                ("firstname", models.CharField(blank=True, max_length=100)),
+                ("surname", models.CharField(blank=True, max_length=100)),
+                ("titul", models.CharField(blank=True, max_length=50)),
+                ("titul2", models.CharField(blank=True, max_length=50)),
+                ("cl_cislo", models.IntegerField()),
+                ("druh_clenstva", models.CharField(blank=True, max_length=50)),
+                ("datum_nar", models.DateField(null=True)),
+                ("povolanie", models.CharField(blank=True, max_length=100)),
+                ("adresa", models.CharField(blank=True, max_length=500)),
+                ("psc", models.CharField(blank=True, max_length=100)),
+                ("obec", models.CharField(blank=True, max_length=100)),
+                ("datum_vstupu", models.DateField(null=True)),
+                ("status", models.CharField(blank=True, max_length=100)),
+                ("poznamka", models.CharField(blank=True, max_length=1000)),
+                (
+                    "farnost_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.RESTRICT,
+                        related_name="original_member",
+                        to="parishes.parish",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Original Member',
-                'verbose_name_plural': 'Original Members',
-                'ordering': ['surname'],
-                'default_related_name': 'original_member',
+                "verbose_name": "Original Member",
+                "verbose_name_plural": "Original Members",
+                "ordering": ["surname"],
+                "default_related_name": "original_member",
             },
         ),
         migrations.AddIndex(
-            model_name='originalmember',
-            index=models.Index(fields=['surname'], name='originaldat_surname_165597_idx'),
+            model_name="originalmember",
+            index=models.Index(
+                fields=["surname"], name="originaldat_surname_165597_idx"
+            ),
         ),
     ]

@@ -1,2 +1,2 @@
-from .DeanshipFactory import DeanshipFactory
-from .ParishFactory import ParishFactory
+from .deanship_factory import DeanshipFactory
+from .parish_factory import ParishFactory

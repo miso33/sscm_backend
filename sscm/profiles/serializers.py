@@ -17,13 +17,22 @@ class ParishField(Field):
 class MemberProfileSerializer(serializers.ModelSerializer):
     member_number = serializers.IntegerField(read_only=True)
     enter_date = serializers.DateField(read_only=True)
-    member_type = serializers.CharField(read_only=True)
+    member_type = serializers.CharField()
     status = serializers.CharField(read_only=True)
     parish = ParishField()
 
     class Meta:
         model = MemberProfile
-        fields = ["parish", 'city', 'address', 'zip', "member_number", "enter_date", "member_type", "status"]
+        fields = [
+            "parish",
+            "city",
+            "address",
+            "zip",
+            "member_number",
+            "enter_date",
+            "member_type",
+            "status",
+        ]
 
 
 class GroupProfileSerializer(MemberProfileSerializer):
@@ -36,27 +45,23 @@ class IndividualProfileSerializer(MemberProfileSerializer):
     class Meta:
         model = IndividualProfile
         fields = [
-                     'first_name', 'last_name', 'birth_date', 'profession',
-                     'title_prefix', 'title_suffix'
-                 ] + MemberProfileSerializer.Meta.fields
+            "first_name",
+            "last_name",
+            "birth_date",
+            "profession",
+            "title_prefix",
+            "title_suffix",
+        ] + MemberProfileSerializer.Meta.fields
 
 
 class MemberTypeField(Field):
     def to_internal_value(self, data):
-        return {
-            "R": "BASIC",
-            "S": "GROUP",
-            "Z": "FOUNDER"
-        }[data]
+        return {"R": "BASIC", "S": "GROUP", "Z": "FOUNDER"}[data]
 
 
 class StatusField(Field):
     def to_internal_value(self, data):
-        return {
-            "A": "ACTIVE",
-            "V": "OUTAGE",
-            "Z": "DECEASED"
-        }[data]
+        return {"A": "ACTIVE", "V": "OUTAGE", "Z": "DECEASED"}[data]
 
 
 class ExistsProfileSerializer(serializers.ModelSerializer):
@@ -72,7 +77,9 @@ class GroupExistsProfileSerializer(ExistsProfileSerializer, GroupProfileSerializ
         fields = GroupProfileSerializer.Meta.fields + ["note"]
 
 
-class IndividualExistsProfileSerializer(ExistsProfileSerializer, GroupProfileSerializer):
+class IndividualExistsProfileSerializer(
+    ExistsProfileSerializer, GroupProfileSerializer
+):
     class Meta:
         model = IndividualProfileSerializer.Meta.model
         fields = IndividualProfileSerializer.Meta.fields + ["note"]

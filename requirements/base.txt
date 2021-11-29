@@ -10,3 +10,9 @@ djangorestframework-simplejwt==5.0.0
 djangorestframework-filters==1.0.0.dev0
 django-allauth==0.46.0
 PyJWT==2.3.0
+sentry-sdk==1.4.3
+django-environ==0.8.1
+django-cors-headers==3.10.0
+django-rest-swagger
+drf_recaptcha
+

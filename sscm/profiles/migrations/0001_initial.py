@@ -11,64 +11,147 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('parishes', '0001_initial'),
+        ("parishes", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='MemberProfile',
+            name="MemberProfile",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('status_changed', model_utils.fields.MonitorField(default=django.utils.timezone.now, monitor='status', verbose_name='status changed')),
-                ('is_removed', models.BooleanField(default=False)),
-                ('member_number', models.IntegerField(blank=True, null=True)),
-                ('city', models.CharField(blank=True, max_length=1000)),
-                ('address', models.CharField(blank=True, max_length=1000)),
-                ('zip', models.CharField(blank=True, max_length=100)),
-                ('enter_date', models.DateField(blank=True, null=True)),
-                ('note', models.CharField(blank=True, max_length=5000)),
-                ('member_type', models.CharField(choices=[('BASIC', 'Riadny'), ('GROUP', 'Skupinový'), ('FOUNDER', 'Zakladajúci')], default='BASIC', max_length=10)),
-                ('status', models.CharField(choices=[('ACTIVE', 'Aktívny'), ('INACTIVE', 'Neaktívny'), ('OUTAGE', 'Vyradený'), ('DECEASED', 'Zosnulý')], default='INACTIVE', max_length=10)),
-                ('parish', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='member', to='parishes.parish')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "status_changed",
+                    model_utils.fields.MonitorField(
+                        default=django.utils.timezone.now,
+                        monitor="status",
+                        verbose_name="status changed",
+                    ),
+                ),
+                ("is_removed", models.BooleanField(default=False)),
+                ("member_number", models.IntegerField(blank=True, null=True)),
+                ("city", models.CharField(blank=True, max_length=1000)),
+                ("address", models.CharField(blank=True, max_length=1000)),
+                ("zip", models.CharField(blank=True, max_length=100)),
+                ("enter_date", models.DateField(blank=True, null=True)),
+                ("note", models.CharField(blank=True, max_length=5000)),
+                (
+                    "member_type",
+                    models.CharField(
+                        choices=[
+                            ("BASIC", "Riadny"),
+                            ("GROUP", "Skupinový"),
+                            ("FOUNDER", "Zakladajúci"),
+                        ],
+                        default="BASIC",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("ACTIVE", "Aktívny"),
+                            ("INACTIVE", "Neaktívny"),
+                            ("OUTAGE", "Vyradený"),
+                            ("DECEASED", "Zosnulý"),
+                        ],
+                        default="INACTIVE",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "parish",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.RESTRICT,
+                        related_name="member",
+                        to="parishes.parish",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['member_number'],
-                'default_related_name': 'member',
+                "ordering": ["member_number"],
+                "default_related_name": "member",
             },
         ),
         migrations.CreateModel(
-            name='GroupProfile',
+            name="GroupProfile",
             fields=[
-                ('memberprofile_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, related_name='group_profile', serialize=False, to='profiles.memberprofile')),
-                ('name', models.CharField(max_length=100, unique=True)),
+                (
+                    "memberprofile_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        related_name="group_profile",
+                        serialize=False,
+                        to="profiles.memberprofile",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
             ],
             options={
-                'ordering': ['name'],
-                'default_related_name': 'group_profile',
+                "ordering": ["name"],
+                "default_related_name": "group_profile",
             },
-            bases=('profiles.memberprofile',),
+            bases=("profiles.memberprofile",),
         ),
         migrations.CreateModel(
-            name='IndividualProfile',
+            name="IndividualProfile",
             fields=[
-                ('memberprofile_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, related_name='individual_profile', serialize=False, to='profiles.memberprofile')),
-                ('first_name', models.CharField(blank=True, max_length=100)),
-                ('last_name', models.CharField(blank=True, max_length=100)),
-                ('birth_date', models.DateField(blank=True, null=True)),
-                ('profession', models.CharField(blank=True, max_length=500)),
-                ('title_prefix', models.CharField(blank=True, max_length=50)),
-                ('title_suffix', models.CharField(blank=True, max_length=50)),
+                (
+                    "memberprofile_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        related_name="individual_profile",
+                        serialize=False,
+                        to="profiles.memberprofile",
+                    ),
+                ),
+                ("first_name", models.CharField(blank=True, max_length=100)),
+                ("last_name", models.CharField(blank=True, max_length=100)),
+                ("birth_date", models.DateField(blank=True, null=True)),
+                ("profession", models.CharField(blank=True, max_length=500)),
+                ("title_prefix", models.CharField(blank=True, max_length=50)),
+                ("title_suffix", models.CharField(blank=True, max_length=50)),
             ],
             options={
-                'ordering': ['last_name'],
-                'default_related_name': 'individual_profile',
+                "ordering": ["last_name"],
+                "default_related_name": "individual_profile",
             },
-            bases=('profiles.memberprofile',),
+            bases=("profiles.memberprofile",),
         ),
         migrations.AddIndex(
-            model_name='memberprofile',
-            index=models.Index(fields=['member_number'], name='profiles_me_member__89a523_idx'),
+            model_name="memberprofile",
+            index=models.Index(
+                fields=["member_number"], name="profiles_me_member__89a523_idx"
+            ),
         ),
     ]

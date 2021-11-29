@@ -8,14 +8,12 @@ from ..core.tests import BaseAPITestCase
 
 class ParishAPITestCase(BaseAPITestCase):
     urlpatterns = [
-        path('parishes/', include('config.urls')),
+        path("parishes/", include("config.urls")),
     ]
 
     def test_list(self):
         ParishFactory.create_batch(10)
         response = self.client.get(
-            path=reverse('parish-list'),
+            path=reverse("parish-list"),
         )
-        print(response)
-        print(response.json())
-        # self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

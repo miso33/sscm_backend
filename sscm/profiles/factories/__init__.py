@@ -1,3 +1,3 @@
-from .GroupProfileFactory import GroupProfileFactory
-from .IndividualProfileFactory import IndividualProfileFactory
-from .MemberProfileFactory import MemberProfileFactory
+from .group_profile_factory import GroupProfileFactory
+from .individual_profile_factory import IndividualProfileFactory
+from .member_profile_factory import MemberProfileFactory

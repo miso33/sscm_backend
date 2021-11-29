@@ -13,4 +13,5 @@ class UserAdmin(UserAdmin):
             return qs.filter(is_superuser=False)
         return qs
 
+
 # admin.site.register(UserModel, UserAdmin)

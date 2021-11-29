@@ -11,26 +11,36 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('profiles', '0001_initial'),
+        ("profiles", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='individualprofile',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='individual_profile', to=settings.AUTH_USER_MODEL),
+            model_name="individualprofile",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="individual_profile",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='groupprofile',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='group_profile', to=settings.AUTH_USER_MODEL),
+            model_name="groupprofile",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="group_profile",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddIndex(
-            model_name='individualprofile',
-            index=models.Index(fields=['last_name'], name='profiles_in_last_na_7cabd8_idx'),
+            model_name="individualprofile",
+            index=models.Index(
+                fields=["last_name"], name="profiles_in_last_na_7cabd8_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='groupprofile',
-            index=models.Index(fields=['name'], name='profiles_gr_name_ea10d4_idx'),
+            model_name="groupprofile",
+            index=models.Index(fields=["name"], name="profiles_gr_name_ea10d4_idx"),
         ),
     ]

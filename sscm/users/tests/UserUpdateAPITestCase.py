@@ -7,17 +7,14 @@ from ..factories import UserFactory
 
 
 class UserUpdateAPITestCase(UserAPITestCase):
-
     def test_group_profile_update(self):
         user = UserFactory()
         original_group_profile = GroupProfileFactory(user=user)
         new_group_profile = GroupProfileFactory.build()
         self.assertNotEqual(original_group_profile.name, new_group_profile.name)
-        self.client.force_authenticate(
-            user=user
-        )
+        self.client.force_authenticate(user=user)
         response = self.client.put(
-            path=reverse('rest_user_details'),
+            path=reverse("rest_user_details"),
             data={
                 "email": user.email,
                 "profile": {
@@ -26,25 +23,24 @@ class UserUpdateAPITestCase(UserAPITestCase):
                     "city": original_group_profile.city,
                     "address": original_group_profile.address,
                     "zip": original_group_profile.zip,
-                    "member_type": "GROUP"
-                }
-            }
-
+                    "member_type": "GROUP",
+                },
+            },
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json()['profile']['name'], new_group_profile.name)
+        self.assertEqual(response.json()["profile"]["name"], new_group_profile.name)
 
     def test_individual_profile_update(self):
         user = UserFactory()
         original_individual_profile = IndividualProfileFactory(user=user)
         individual_profile = IndividualProfileFactory.build()
-        self.assertNotEqual(original_individual_profile.last_name, individual_profile.last_name)
-        self.client.force_authenticate(
-            user=user
+        self.assertNotEqual(
+            original_individual_profile.last_name, individual_profile.last_name
         )
+        self.client.force_authenticate(user=user)
         response = self.client.patch(
-            path=reverse('rest_user_details'),
+            path=reverse("rest_user_details"),
             data={
                 "email": user.email,
                 "profile": {
@@ -58,10 +54,11 @@ class UserUpdateAPITestCase(UserAPITestCase):
                     "city": original_individual_profile.city,
                     "address": original_individual_profile.address,
                     "zip": original_individual_profile.zip,
-                    "member_type": "GROUP"
-                }
-            }
-
+                    "member_type": "GROUP",
+                },
+            },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json()['profile']['last_name'], individual_profile.last_name)
+        self.assertEqual(
+            response.json()["profile"]["last_name"], individual_profile.last_name
+        )

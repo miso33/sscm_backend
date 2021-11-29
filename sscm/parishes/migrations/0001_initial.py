@@ -10,53 +10,135 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Deanship',
+            name="Deanship",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('status', model_utils.fields.StatusField(choices=[('active', 'active'), ('inactive', 'inactive')], default='active', max_length=100, no_check_for_status=True, verbose_name='status')),
-                ('status_changed', model_utils.fields.MonitorField(default=django.utils.timezone.now, monitor='status', verbose_name='status changed')),
-                ('is_removed', models.BooleanField(default=False)),
-                ('name', models.CharField(max_length=1000)),
-                ('short', models.CharField(max_length=5)),
-                ('diocese', models.CharField(max_length=5)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "status",
+                    model_utils.fields.StatusField(
+                        choices=[("active", "active"), ("inactive", "inactive")],
+                        default="active",
+                        max_length=100,
+                        no_check_for_status=True,
+                        verbose_name="status",
+                    ),
+                ),
+                (
+                    "status_changed",
+                    model_utils.fields.MonitorField(
+                        default=django.utils.timezone.now,
+                        monitor="status",
+                        verbose_name="status changed",
+                    ),
+                ),
+                ("is_removed", models.BooleanField(default=False)),
+                ("name", models.CharField(max_length=1000)),
+                ("short", models.CharField(max_length=5)),
+                ("diocese", models.CharField(max_length=5)),
             ],
             options={
-                'ordering': ['name'],
-                'default_related_name': 'deanship',
+                "ordering": ["name"],
+                "default_related_name": "deanship",
             },
         ),
         migrations.CreateModel(
-            name='Parish',
+            name="Parish",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('status', model_utils.fields.StatusField(choices=[('active', 'active'), ('inactive', 'inactive')], default='active', max_length=100, no_check_for_status=True, verbose_name='status')),
-                ('status_changed', model_utils.fields.MonitorField(default=django.utils.timezone.now, monitor='status', verbose_name='status changed')),
-                ('is_removed', models.BooleanField(default=False)),
-                ('name', models.CharField(max_length=100)),
-                ('deanship', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='parish', to='parishes.deanship')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "status",
+                    model_utils.fields.StatusField(
+                        choices=[("active", "active"), ("inactive", "inactive")],
+                        default="active",
+                        max_length=100,
+                        no_check_for_status=True,
+                        verbose_name="status",
+                    ),
+                ),
+                (
+                    "status_changed",
+                    model_utils.fields.MonitorField(
+                        default=django.utils.timezone.now,
+                        monitor="status",
+                        verbose_name="status changed",
+                    ),
+                ),
+                ("is_removed", models.BooleanField(default=False)),
+                ("name", models.CharField(max_length=100)),
+                (
+                    "deanship",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.RESTRICT,
+                        related_name="parish",
+                        to="parishes.deanship",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Parish',
-                'verbose_name_plural': 'Parishes',
-                'ordering': ['name'],
-                'default_related_name': 'parish',
+                "verbose_name": "Parish",
+                "verbose_name_plural": "Parishes",
+                "ordering": ["name"],
+                "default_related_name": "parish",
             },
         ),
         migrations.AddIndex(
-            model_name='deanship',
-            index=models.Index(fields=['name'], name='parishes_de_name_d84289_idx'),
+            model_name="deanship",
+            index=models.Index(fields=["name"], name="parishes_de_name_d84289_idx"),
         ),
         migrations.AddIndex(
-            model_name='parish',
-            index=models.Index(fields=['name'], name='parishes_pa_name_7b749a_idx'),
+            model_name="parish",
+            index=models.Index(fields=["name"], name="parishes_pa_name_7b749a_idx"),
         ),
     ]

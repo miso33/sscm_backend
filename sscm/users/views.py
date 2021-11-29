@@ -17,4 +17,7 @@ class GetOTPView(APIView):
         serializer = V3Serializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             return Response({}, status=status.HTTP_200_OK)
-        return Response({"captcha": "Verifikácia pomocou reCaptcha zlyhala!"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"captcha": "Verifikácia pomocou reCaptcha zlyhala!"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )

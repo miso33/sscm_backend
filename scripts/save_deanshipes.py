@@ -1,4 +1,4 @@
-from sscm.parishes.models import Deanship, Parish
+from sscm.parishes.models import Deanship
 
 
 def run():

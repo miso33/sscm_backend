@@ -8,12 +8,12 @@ class Parish(BaseModel):
     name = models.CharField(max_length=100)
 
     class Meta:
-        ordering = ['name']
-        default_related_name = 'parish'
+        ordering = ["name"]
+        default_related_name = "parish"
         verbose_name = "Parish"
         verbose_name_plural = "Parishes"
         indexes = [
-            models.Index(fields=['name']),
+            models.Index(fields=["name"]),
         ]
 
     def __str__(self):

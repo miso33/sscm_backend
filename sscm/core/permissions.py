@@ -2,10 +2,6 @@ import copy
 
 from rest_framework.permissions import DjangoModelPermissions
 
-"""
-User has to be in specific group to have any of the permissions including GET.
-"""
-
 
 class ViewDjangoModelPermission(DjangoModelPermissions):
     def __init__(self):

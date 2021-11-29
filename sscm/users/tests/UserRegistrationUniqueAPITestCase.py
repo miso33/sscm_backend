@@ -9,12 +9,11 @@ from ..factories import UserFactory
 
 
 class UserRegistrationUniqueAPITestCase(UserAPITestCase):
-
     def test_new_group_profile(self):
         password = UserFactory.build().password
         group_profile = GroupProfileFactory.build()
         response = self.client.post(
-            path=reverse('rest_register'),
+            path=reverse("rest_register"),
             data={
                 "email": UserFactory.build().email,
                 "password1": password,
@@ -28,8 +27,10 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
                     "exists": False,
                     "member_type": "GROUP",
                 },
-            }
+            },
         )
+
+        self.assertEqual(response.json()['user']['profile']['member_type'], "GROUP")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(GroupProfile.objects.filter(name=group_profile.name).exists())
 
@@ -37,7 +38,7 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
         password = UserFactory.build().password
         group_profile = GroupProfileFactory.build()
         response = self.client.post(
-            path=reverse('rest_register'),
+            path=reverse("rest_register"),
             data={
                 "password1": password,
                 "password2": password,
@@ -49,11 +50,11 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
                     "zip": group_profile.zip,
                     "exists": False,
                     "member_type": "GROUP",
-                }
-            }
+                },
+            },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('email', response.json())
+        self.assertIn("email", response.json())
         self.assertFalse(GroupProfile.objects.filter(name=group_profile.name).exists())
 
     def test_new_group_profile_wo_group_name(self):
@@ -61,7 +62,7 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
         email = UserFactory.build().email
         group_profile = GroupProfileFactory.build()
         response = self.client.post(
-            path=reverse('rest_register'),
+            path=reverse("rest_register"),
             data={
                 "email": email,
                 "password1": password,
@@ -73,18 +74,18 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
                     "zip": group_profile.zip,
                     "exists": False,
                     "member_type": "GROUP",
-                }
-            }
+                },
+            },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('name', response.json())
+        self.assertIn("name", response.json())
         self.assertFalse(User.objects.filter(email=email).exists())
 
     def test_new_individual_profile(self):
         password = UserFactory.build().password
         individual_profile = IndividualProfileFactory.build()
         response = self.client.post(
-            path=reverse('rest_register'),
+            path=reverse("rest_register"),
             data={
                 "email": UserFactory.build().email,
                 "password1": password,
@@ -102,10 +103,10 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
                     "zip": individual_profile.zip,
                     "exists": False,
                     "member_type": "BASIC",
-                }
-            }
+                },
+            },
         )
-
+        self.assertEqual(response.json()['user']['profile']['member_type'], "BASIC")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(
             IndividualProfile.objects.filter(

@@ -9,10 +9,10 @@ class Deanship(BaseModel):
     diocese = models.CharField(max_length=5)
 
     class Meta:
-        ordering = ['name']
-        default_related_name = 'deanship'
+        ordering = ["name"]
+        default_related_name = "deanship"
         indexes = [
-            models.Index(fields=['name']),
+            models.Index(fields=["name"]),
         ]
 
     def __str__(self):

@@ -32,14 +32,14 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "allauth",
     "allauth.account",
-    'allauth.socialaccount',
+    "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework_filters",
     "import_export",
     "corsheaders",
-    'rest_framework_swagger',
+    "rest_framework_swagger",
     "drf_recaptcha",
 ]
 
@@ -104,11 +104,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth"
-                ".password_validation.UserAttributeSimilarityValidator",
+        ".password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -149,11 +148,11 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': "sscm.users.serializers.CustomRegisterSerializer"
+    "REGISTER_SERIALIZER": "sscm.users.serializers.CustomRegisterSerializer"
 }
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': "sscm.users.serializers.CustomUserDetailSerializer",
+    "USER_DETAILS_SERIALIZER": "sscm.users.serializers.CustomUserDetailSerializer",
 }
 
 SIMPLE_JWT = {
@@ -208,10 +207,10 @@ IMPORT_EXPORT_SKIP_ADMIN_LOG = env("IMPORT_EXPORT_SKIP_ADMIN_LOG")
 WKHTMLTOPDF_PATH = env("WKHTMLTOPDF_PATH")
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_USE_SSL = True

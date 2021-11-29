@@ -1,2 +1,2 @@
-from .Deanship import Deanship
-from .Parish import Parish
+from .deanship import Deanship
+from .parish import Parish
