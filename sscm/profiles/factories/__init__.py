@@ -1,0 +1,3 @@
+from .GroupProfileFactory import GroupProfileFactory
+from .IndividualProfileFactory import IndividualProfileFactory
+from .MemberProfileFactory import MemberProfileFactory

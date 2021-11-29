@@ -1,0 +1,5 @@
+from .UserRegistrationExistsAPITestCase import UserRegistrationExistsAPITestCase
+from .UserRegistrationUniqueAPITestCase import UserRegistrationUniqueAPITestCase
+from .UserDetailAPITestCase import UserDetailAPITestCase
+from .UserUpdateAPITestCase import UserUpdateAPITestCase
+from .UserLoginAPITestCase import UserLoginAPITestCase
