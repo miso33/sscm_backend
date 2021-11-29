@@ -23,7 +23,7 @@ class OriginalMember(BaseModel):
     class Meta:
         ordering = ["surname"]
         default_related_name = "original_member"
-        verbose_name = "Pôvodný údaj členov"
+        verbose_name = "Pôvodné údaje členov"
         verbose_name_plural = "Pôvodné údaje členov"
         indexes = [
             models.Index(fields=["surname"]),

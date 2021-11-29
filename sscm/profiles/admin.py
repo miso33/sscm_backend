@@ -10,12 +10,20 @@ class GroupProfileAdmin(BaseAdmin):
     def get_queryset(self, request):
         return GroupProfile.all_objects.all()
 
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {'title': 'Skupiny'}
+        return super(GroupProfileAdmin, self).changelist_view(request, extra_context=extra_context)
+
 
 class IndividualProfileAdmin(BaseAdmin):
     list_display = ("status", "member_type", "first_name", "last_name", "member_type")
 
     def get_queryset(self, request):
         return IndividualProfile.objects.all()
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {'title': 'Jednotlivci'}
+        return super(IndividualProfileAdmin, self).changelist_view(request, extra_context=extra_context)
 
 
 class MemberProfileAdmin(BaseAdmin):
