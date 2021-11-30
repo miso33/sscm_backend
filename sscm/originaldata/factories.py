@@ -1,4 +1,4 @@
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 
 import factory
 from django.contrib.auth import get_user_model
@@ -20,7 +20,9 @@ class OriginalMemberFactory(factory.django.DjangoModelFactory):
     cl_cislo = factory.Sequence(lambda n: n + 1)
     druh_clenstva = "R"
     datum_nar = factory.Sequence(
-        lambda n: date.strftime(date.today() - timedelta(weeks=52 * (20 + n)), "%Y-%m-%d")
+        lambda n: date.strftime(
+            date.today() - timedelta(weeks=52 * (20 + n)), "%Y-%m-%d"
+        )
     )
     povolanie = factory.Sequence(lambda n: f"Proffesion {n + 1}")
     adresa = factory.Sequence(lambda n: f"Address {n + 1}")

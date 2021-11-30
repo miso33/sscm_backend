@@ -9,8 +9,8 @@ UserModel = get_user_model()
 
 
 class ProfileField(Field):
-    def to_representation(self, obj):
-        return obj
+    def to_representation(self, value):
+        return value
 
     def to_internal_value(self, data):
         return data
@@ -25,8 +25,8 @@ class CustomUserDetailSerializer(UserDetailsSerializer):
         fields = UserDetailsSerializer.Meta.fields + ("profile",)
 
     @staticmethod
-    def get_profile(obj):
-        return ReadProfileService().get_serializer(obj)
+    def get_profile(value):
+        return ReadProfileService().get_serializer(value)
 
     def update(self, instance, validated_data):
         if hasattr(instance, "group_profile"):

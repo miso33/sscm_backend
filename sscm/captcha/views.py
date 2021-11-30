@@ -10,7 +10,7 @@ class V3Serializer(Serializer):
     recaptcha = ReCaptchaV3Field(action="login")
 
 
-class GetOTPView(APIView):
+class CaptchaView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):

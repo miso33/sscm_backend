@@ -8,13 +8,19 @@ UserModel = get_user_model()
 @admin.register(UserModel)
 class CustomUserAdmin(UserAdmin):
     def get_queryset(self, request):
-        qs = super(UserAdmin, self).get_queryset(request)
+        query_set = super().get_queryset(request)
         if not request.user.is_superuser:
-            return qs.filter(is_superuser=False)
-        return qs
+            return query_set.filter(is_superuser=False)
+        return query_set
 
     def changelist_view(self, request, extra_context=None):
-        extra_context = {'title': 'Užívatelia'}
-        return super(CustomUserAdmin, self).changelist_view(request, extra_context=extra_context)
+        extra_context = {"title": "Užívatelia"}
+        return super().changelist_view(
+            request, extra_context=extra_context
+        )
 
-# admin.site.register(UserModel, UserAdmin)
+    def get_readonly_fields(self, request, obj=None):
+        rof = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            rof += ("is_staff", "is_superuser", "groups", "user_permissions")
+        return rof

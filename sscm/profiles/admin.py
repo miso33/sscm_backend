@@ -5,7 +5,11 @@ from .models import GroupProfile, IndividualProfile, MemberProfile
 
 
 class GroupProfileAdmin(BaseAdmin):
-    list_display = ("name", 'parish', "status",)
+    list_display = (
+        "name",
+        "parish",
+        "status",
+    )
     search_fields = ["name"]
     list_filter = ["status"]
 
@@ -13,12 +17,14 @@ class GroupProfileAdmin(BaseAdmin):
         return GroupProfile.all_objects.all()
 
     def changelist_view(self, request, extra_context=None):
-        extra_context = {'title': 'Skupiny'}
-        return super(GroupProfileAdmin, self).changelist_view(request, extra_context=extra_context)
+        extra_context = {"title": "Skupiny"}
+        return super().changelist_view(
+            request, extra_context=extra_context
+        )
 
 
 class IndividualProfileAdmin(BaseAdmin):
-    list_display = ("status", "member_type", "first_name", "last_name", 'parish')
+    list_display = ("status", "member_type", "first_name", "last_name", "parish")
     search_fields = ["first_name", "last_name"]
     list_filter = ["status"]
 
@@ -26,12 +32,13 @@ class IndividualProfileAdmin(BaseAdmin):
         return IndividualProfile.objects.all()
 
     def changelist_view(self, request, extra_context=None):
-        extra_context = {'title': 'Jednotlivci'}
-        return super(IndividualProfileAdmin, self).changelist_view(request, extra_context=extra_context)
+        extra_context = {"title": "Jednotlivci"}
+        return super().changelist_view(
+            request, extra_context=extra_context
+        )
 
 
 class MemberProfileAdmin(BaseAdmin):
-
     def get_queryset(self, request):
         return MemberProfile.all_objects.all()
 

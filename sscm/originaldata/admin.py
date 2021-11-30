@@ -13,8 +13,10 @@ class OriginalMemberAdmin(BaseAdmin):
         return OriginalMember.all_objects.all()
 
     def changelist_view(self, request, extra_context=None):
-        extra_context = {'title': 'Pôvodné údaje členov'}
-        return super(OriginalMemberAdmin, self).changelist_view(request, extra_context=extra_context)
+        extra_context = {"title": "Pôvodné údaje členov"}
+        return super().changelist_view(
+            request, extra_context=extra_context
+        )
 
 
 admin.site.register(OriginalMember, OriginalMemberAdmin)

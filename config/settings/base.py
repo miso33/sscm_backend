@@ -48,6 +48,7 @@ PROJECT_APPS = [
     "sscm.originaldata",
     "sscm.parishes",
     "sscm.profiles",
+    "sscm.video",
     "sscm.users",
 ]
 
@@ -107,7 +108,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth"
-        ".password_validation.UserAttributeSimilarityValidator",
+                ".password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -183,7 +184,7 @@ REST_USE_JWT = True
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = "sk"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "UTC"
 
@@ -212,9 +213,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
+
+DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
+ADMINS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
-DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")

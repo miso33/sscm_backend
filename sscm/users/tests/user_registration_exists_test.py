@@ -134,3 +134,32 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
         self.assertTrue(group_profile.exists())
         self.assertEqual(group_profile.get().member_type, "FOUNDER")
         self.assertEqual(group_profile.get().status, "DECEASED")
+
+    def test_exists_two_same_individual_profiles(self):
+        password = UserFactory.build().password
+        original_member = OriginalMemberFactory(druh_clenstva="Z", status="Z")
+        OriginalMemberFactory(
+            firstname=original_member.firstname,
+            surname=original_member.surname,
+            datum_nar=original_member.datum_nar,
+        )
+        email = UserFactory.build().email
+
+        response = self.client.post(
+            path=reverse("rest_register"),
+            data={
+                "email": email,
+                "password1": password,
+                "password2": password,
+                "profile": {
+                    "first_name": original_member.firstname,
+                    "last_name": original_member.surname,
+                    "birth_date": original_member.datum_nar,
+                    "exists": True,
+                    "member_type": "BASIC",
+                },
+            },
+        )
+        self.assertEqual(response.json()["error"], "Undefined error")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertFalse(UserModel.objects.filter(email=email))

@@ -1,4 +1,7 @@
-class ProfileCreateService:
+from abc import ABC, abstractmethod
+
+
+class ProfileCreateService(ABC):
     def __init__(self, profile_data, user):
         self.profile_data = profile_data
         self.user = user
@@ -7,6 +10,7 @@ class ProfileCreateService:
     def validate(self):
         return self.profile_serializer.is_valid()
 
+    @abstractmethod
     def get_profile_serializer(self):
         return None
 

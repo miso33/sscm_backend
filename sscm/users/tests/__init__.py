@@ -2,4 +2,3 @@ from .user_registration_exists_test import UserRegistrationExistsAPITestCase
 from .user_registration_unique_test import UserRegistrationUniqueAPITestCase
 from .user_detail_test import UserDetailAPITestCase
 from .user_update_test import UserUpdateAPITestCase
-from .user_login_test import UserLoginAPITestCase

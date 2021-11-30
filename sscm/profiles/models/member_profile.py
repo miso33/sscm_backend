@@ -49,4 +49,4 @@ class MemberProfile(BaseModel):
         ]
 
     def __str__(self):
-        return self.member_number
+        return str(self.member_number)

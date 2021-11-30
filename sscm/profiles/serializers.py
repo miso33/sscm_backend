@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from rest_framework.serializers import Field
 
-from .models import GroupProfile, IndividualProfile, MemberProfile
 from sscm.parishes.serializers import ParishSerializer
+from .models import GroupProfile, IndividualProfile, MemberProfile
 from ..parishes.models import Parish
 
 
 class ParishField(Field):
-    def to_representation(self, obj):
-        return ParishSerializer(obj).data
+    def to_representation(self, value):
+        return ParishSerializer(value).data
 
     def to_internal_value(self, data):
         return Parish.objects.get(pk=data)
@@ -45,13 +45,13 @@ class IndividualProfileSerializer(MemberProfileSerializer):
     class Meta:
         model = IndividualProfile
         fields = [
-            "first_name",
-            "last_name",
-            "birth_date",
-            "profession",
-            "title_prefix",
-            "title_suffix",
-        ] + MemberProfileSerializer.Meta.fields
+                     "first_name",
+                     "last_name",
+                     "birth_date",
+                     "profession",
+                     "title_prefix",
+                     "title_suffix",
+                 ] + MemberProfileSerializer.Meta.fields
 
 
 class MemberTypeField(Field):

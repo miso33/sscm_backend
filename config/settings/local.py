@@ -1,4 +1,6 @@
 from .base import *
 
-INSTALLED_APPS += ["django_extensions"]
 DEBUG = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
+DRF_RECAPTCHA_TESTING_PASS = True
+INSTALLED_APPS += ["django_extensions"]

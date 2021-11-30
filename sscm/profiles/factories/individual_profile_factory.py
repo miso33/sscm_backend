@@ -20,12 +20,12 @@ class IndividualProfileFactory(factory.django.DjangoModelFactory):
     zip = factory.Sequence(lambda n: f"Zip {n + 1}")
     enter_date = factory.Sequence(lambda n: date.today() - timedelta(weeks=52 + n))
     note = factory.Sequence(lambda n: f"Note {n + 1}")
-    first_name = factory.Sequence(lambda n: "First {0}".format(n + 1))
-    last_name = factory.Sequence(lambda n: "Last {0}".format(n + 1))
+    first_name = factory.Sequence(lambda n: f"First {n + 1}")
+    last_name = factory.Sequence(lambda n: f"Last {n + 1}")
     birth_date = factory.Sequence(lambda n: date.today() - timedelta(days=n + 1))
-    profession = factory.Sequence(lambda n: "Profession {0}".format(n + 1))
-    title_prefix = factory.Sequence(lambda n: "Title Prefix {0}".format(n + 1))
-    title_suffix = factory.Sequence(lambda n: "Title Surfix {0}".format(n + 1))
+    profession = factory.Sequence(lambda n: f"Profession {n + 1}")
+    title_prefix = factory.Sequence(lambda n: f"Title Prefix {n + 1}")
+    title_suffix = factory.Sequence(lambda n: f"Title Surfix {n + 1}")
 
     class Meta:
         model = IndividualProfile

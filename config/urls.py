@@ -1,5 +1,6 @@
 from allauth.account.views import ConfirmEmailView
 from dj_rest_auth.registration.views import VerifyEmailView
+from dj_rest_auth.views import LoginView, LogoutView
 from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework_simplejwt.views import (
@@ -7,10 +8,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-from dj_rest_auth.views import LoginView, LogoutView
 
+from sscm.captcha.views import CaptchaView
 from sscm.parishes.views import ParishList
-from sscm.users.views import GetOTPView
+from sscm.video.views import CodeView
 
 admin.site.site_header = "Administrácia členov SSCM"
 urlpatterns = [
@@ -38,5 +39,6 @@ urlpatterns = [
         VerifyEmailView.as_view(),
         name="account_confirm_email",
     ),
-    path("user/captcha/", GetOTPView.as_view()),
+    path("captcha/", CaptchaView.as_view()),
+    path("video/", CodeView.as_view(), name="get_code"),
 ]

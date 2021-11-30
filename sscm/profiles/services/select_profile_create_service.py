@@ -1,5 +1,5 @@
-from .exists_individual_create_service import ExistsIndividualCreateService
 from .exists_group_create_service import ExistsGroupCreateService
+from .exists_individual_create_service import ExistsIndividualCreateService
 from .unique_group_create_service import UniqueGroupCreateService
 from .unique_individual_create_service import UniqueIndividualCreateService
 
