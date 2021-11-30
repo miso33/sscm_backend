@@ -8,6 +8,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from django.conf.urls.static import static
+from django.conf import settings
 
 from sscm.captcha.views import CaptchaView
 from sscm.parishes.views import ParishList
@@ -41,4 +43,7 @@ urlpatterns = [
     ),
     path("captcha/", CaptchaView.as_view()),
     path("video/", CodeView.as_view(), name="get_code"),
-]
+] + static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
