@@ -223,6 +223,6 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
 mimetypes.add_type("text/css", ".css", True)
-STATICFILES_DIRS = [
-    '/var/www/static/',
-]
+# STATICFILES_DIRS = [
+#     '/var/www/static/',
+# ]
