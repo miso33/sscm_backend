@@ -5,7 +5,9 @@ from .models import OriginalMember
 
 
 class OriginalMemberAdmin(BaseAdmin):
-    list_display = BaseAdmin.list_display + ("firstname", "surname", "farnost_id")
+    list_display = ("firstname", "surname", "farnost_id")
+    search_fields = ["firstname", "surname"]
+    list_filter = ["status", "druh_clenstva"]
 
     def get_queryset(self, request):
         return OriginalMember.all_objects.all()

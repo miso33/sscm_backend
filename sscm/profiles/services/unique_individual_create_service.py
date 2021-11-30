@@ -1,5 +1,5 @@
 from sscm.profiles.serializers import IndividualProfileSerializer
-from .ProfileCreateService import ProfileCreateService
+from .profile_create_service import ProfileCreateService
 
 
 class UniqueIndividualCreateService(ProfileCreateService):

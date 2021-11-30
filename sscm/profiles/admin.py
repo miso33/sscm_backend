@@ -5,7 +5,9 @@ from .models import GroupProfile, IndividualProfile, MemberProfile
 
 
 class GroupProfileAdmin(BaseAdmin):
-    list_display = BaseAdmin.list_display
+    list_display = ("name", 'parish', "status",)
+    search_fields = ["name"]
+    list_filter = ["status"]
 
     def get_queryset(self, request):
         return GroupProfile.all_objects.all()
@@ -16,7 +18,9 @@ class GroupProfileAdmin(BaseAdmin):
 
 
 class IndividualProfileAdmin(BaseAdmin):
-    list_display = ("status", "member_type", "first_name", "last_name", "member_type")
+    list_display = ("status", "member_type", "first_name", "last_name", 'parish')
+    search_fields = ["first_name", "last_name"]
+    list_filter = ["status"]
 
     def get_queryset(self, request):
         return IndividualProfile.objects.all()
@@ -27,7 +31,6 @@ class IndividualProfileAdmin(BaseAdmin):
 
 
 class MemberProfileAdmin(BaseAdmin):
-    list_display = BaseAdmin.list_display
 
     def get_queryset(self, request):
         return MemberProfile.all_objects.all()
@@ -35,4 +38,4 @@ class MemberProfileAdmin(BaseAdmin):
 
 admin.site.register(GroupProfile, GroupProfileAdmin)
 admin.site.register(IndividualProfile, IndividualProfileAdmin)
-# admin.site.register(MemberProfile, MemberProfileAdmin)
+admin.site.register(MemberProfile, MemberProfileAdmin)

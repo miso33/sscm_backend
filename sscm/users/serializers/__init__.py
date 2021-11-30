@@ -1,2 +1,2 @@
-from .CustomUserDetailSerializer import CustomUserDetailSerializer
-from .CustomRegisterSerializer import CustomRegisterSerializer
+from .custom_user_detail_serializer import CustomUserDetailSerializer
+from .custom_register_serializer import CustomRegisterSerializer

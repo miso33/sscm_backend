@@ -1,7 +1,7 @@
-from .ExistsIndividualCreateService import ExistsIndividualCreateService
-from .ExistsGroupCreateService import ExistsGroupCreateService
-from .UniqueGroupCreateService import UniqueGroupCreateService
-from .UniqueIndividualCreateService import UniqueIndividualCreateService
+from .exists_individual_create_service import ExistsIndividualCreateService
+from .exists_group_create_service import ExistsGroupCreateService
+from .unique_group_create_service import UniqueGroupCreateService
+from .unique_individual_create_service import UniqueIndividualCreateService
 
 
 class SelectProfileCreateService:
@@ -13,4 +13,4 @@ class SelectProfileCreateService:
             "BASIC-False": UniqueIndividualCreateService,
             "GROUP-True": ExistsGroupCreateService,
             "BASIC-True": ExistsIndividualCreateService,
-        }["{0}-{1}".format(profile_data["member_type"], exists)]
+        }[f"{profile_data['member_type']}-{exists}"]

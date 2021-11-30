@@ -1,22 +1,22 @@
 from django.db.models import F
 from rest_framework import serializers
 
-from sscm.profiles.serializers import IndividualExistsProfileSerializer
-from .ProfileCreateService import ProfileCreateService
+from sscm.profiles.serializers import GroupExistsProfileSerializer
+from .profile_create_service import ProfileCreateService
 from ...originaldata.models import OriginalMember
 
 
-class ExistsIndividualCreateService(ProfileCreateService):
+class ExistsGroupCreateService(ProfileCreateService):
     def get_profile_serializer(self):
-        return IndividualExistsProfileSerializer(data=self.get_data())
+        return GroupExistsProfileSerializer(data=self.get_data())
 
     def get_data(self):
         try:
+            # print(self.profile_data)
             original_member = (
                 OriginalMember.objects.filter(
-                    firstname__iexact=self.profile_data["first_name"],
-                    surname__iexact=self.profile_data["last_name"],
-                    datum_nar=self.profile_data["birth_date"],
+                    # firstname="x",
+                    surname__iexact=self.profile_data["name"]
                 )
                 .values(
                     "status",
@@ -28,12 +28,10 @@ class ExistsIndividualCreateService(ProfileCreateService):
                     enter_date=F("datum_vstupu"),
                     member_number=F("cl_cislo"),
                     note=F("poznamka"),
-                    profession=F("povolanie"),
-                    title_prefix=F("titul"),
-                    title_suffix=F("titul2"),
                 )
                 .get()
             )
         except OriginalMember.DoesNotExist as e:
             raise serializers.ValidationError(e)
+
         return {**self.profile_data, **original_member}
