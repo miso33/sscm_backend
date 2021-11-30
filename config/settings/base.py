@@ -6,6 +6,7 @@ from datetime import timedelta
 from pathlib import Path
 import environ
 import sys
+import mimetypes
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -221,3 +222,4 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
+mimetypes.add_type("text/css", ".css", True)
