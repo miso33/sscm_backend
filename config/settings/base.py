@@ -136,6 +136,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissions",
+        "rest_framework.permissions.DjangoModelPermissions",
     ],
     "DEFAULT_FILTER_BACKENDS": (
         "rest_framework_filters.backends.RestFrameworkFilterBackend",
@@ -147,7 +148,8 @@ REST_FRAMEWORK = {
     "DATE_FORMAT": "%Y-%m-%d",
     "DATETIME_FORMAT": "%d.%m.%Y %H:%M",
 }
-CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS")
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "sscm.users.serializers.CustomRegisterSerializer"
@@ -185,7 +187,7 @@ REST_USE_JWT = True
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "sk"
 
 TIME_ZONE = "UTC"
 
@@ -214,16 +216,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
-
 DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
-ADMINS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')]
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
 mimetypes.add_type("text/css", ".css", True)
-# STATICFILES_DIRS = [
-#     '/var/www/static/',
-# ]
-
