@@ -14,6 +14,6 @@ class CodeView(APIView):
         if video:
             return Response({"code": video.code}, status=status.HTTP_200_OK)
         return Response(
-            {"code": "Not Found"},
-            status=status.HTTP_404_NOT_FOUND,
+            {"code": None},
+            status=status.HTTP_400_BAD_REQUEST,
         )

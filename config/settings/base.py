@@ -226,3 +226,4 @@ mimetypes.add_type("text/css", ".css", True)
 # STATICFILES_DIRS = [
 #     '/var/www/static/',
 # ]
+
