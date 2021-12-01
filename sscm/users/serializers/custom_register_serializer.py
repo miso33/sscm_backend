@@ -2,6 +2,7 @@ import logging
 
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth import get_user_model
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -33,10 +34,15 @@ class CustomRegisterSerializer(RegisterSerializer):
         except OriginalMember.DoesNotExist as error:
             capture_exception(error)
             logger.error(f'{error}-{request.data}')
-            raise serializers.ValidationError({"data": "Zadaný člen sa nenachádza v stare databáze."})
+            raise serializers.ValidationError({"member": "Zadaný člen sa nenachádza v stare databáze."})
         except ValidationError as error:
             capture_exception(error)
+            logger.error(error)
             raise error
+        except MultipleObjectsReturned as error:
+            capture_exception(error)
+            logger.error(error)
+            raise serializers.ValidationError({"member": "Zadaný člen sa nenachádza v stare databáze viackrát."})
         except Exception as error:
             capture_exception(error)
             logger.error(error)

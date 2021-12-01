@@ -5,7 +5,7 @@ from rest_framework import status
 from sscm.originaldata.factories import OriginalMemberFactory
 from sscm.users.tests.base import UserAPITestCase
 from ..factories import UserFactory
-from ...profiles.factories import IndividualProfileFactory
+from ...profiles.factories import GroupProfileFactory
 from ...profiles.models import GroupProfile, IndividualProfile
 
 UserModel = get_user_model()
@@ -81,6 +81,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("member", response.json())
         self.assertFalse(GroupProfile.objects.filter(name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -104,6 +105,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("member", response.json())
         self.assertFalse(IndividualProfile.objects.filter(last_name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -160,4 +162,32 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
         )
         self.assertIn("name", response.json())
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertFalse(UserModel.objects.filter(email=email))
+
+    def test_two_exists_group_in_original_data(self):
+        password = UserFactory.build().password
+        group_profile = GroupProfileFactory.build()
+
+        OriginalMemberFactory.create_batch(
+            2,
+            firstname="x",
+            surname=group_profile.name,
+        )
+        email = UserFactory.build().email
+        response = self.client.post(
+            path=reverse("rest_register"),
+            data={
+                "email": email,
+                "password1": password,
+                "password2": password,
+                "profile": {
+                    "name": group_profile.name,
+                    "exists": True,
+                    "member_type": "GROUP",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("member", response.json())
+        self.assertFalse(GroupProfile.objects.filter(name=group_profile.name))
         self.assertFalse(UserModel.objects.filter(email=email))
