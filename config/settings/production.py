@@ -21,7 +21,7 @@ sentry_sdk.init(
 )
 SERVER_EMAIL = env("EMAIL_HOST_USER")
 
-ADMINS = [('admin', 'labas_statistics@scrypta.sk')]
+ADMINS = [('admin', 'reports@scrypta.sk')]
 #
 # LOGGING = {
 #     'version': 1,

@@ -29,6 +29,7 @@ class CustomRegisterSerializer(RegisterSerializer):
                 else:
                     raise serializers.ValidationError(profile_instance.errors())
         except OriginalMember.DoesNotExist as error:
+            logger.error(f'{error}-{request.data}')
             raise serializers.ValidationError(error)
         except Exception as error:
             logger.error(error)

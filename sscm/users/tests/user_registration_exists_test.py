@@ -83,7 +83,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
         self.assertFalse(GroupProfile.objects.filter(name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
-    def test_exists_individual_not_found_profile(self):
+    def test_exists_not_found_individual_profile(self):
         password = UserFactory.build().password
         email = UserFactory.build().email
         surname = OriginalMemberFactory.build().surname
