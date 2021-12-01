@@ -15,9 +15,7 @@ class CustomUserAdmin(UserAdmin):
 
     def changelist_view(self, request, extra_context=None):
         extra_context = {"title": "Užívatelia"}
-        return super().changelist_view(
-            request, extra_context=extra_context
-        )
+        return super().changelist_view(request, extra_context=extra_context)
 
     def get_readonly_fields(self, request, obj=None):
         rof = super().get_readonly_fields(request, obj)

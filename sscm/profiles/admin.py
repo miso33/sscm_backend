@@ -18,9 +18,7 @@ class GroupProfileAdmin(BaseAdmin):
 
     def changelist_view(self, request, extra_context=None):
         extra_context = {"title": "Skupiny"}
-        return super().changelist_view(
-            request, extra_context=extra_context
-        )
+        return super().changelist_view(request, extra_context=extra_context)
 
 
 class IndividualProfileAdmin(BaseAdmin):
@@ -33,9 +31,7 @@ class IndividualProfileAdmin(BaseAdmin):
 
     def changelist_view(self, request, extra_context=None):
         extra_context = {"title": "Jednotlivci"}
-        return super().changelist_view(
-            request, extra_context=extra_context
-        )
+        return super().changelist_view(request, extra_context=extra_context)
 
 
 class MemberProfileAdmin(BaseAdmin):

@@ -45,13 +45,13 @@ class IndividualProfileSerializer(MemberProfileSerializer):
     class Meta:
         model = IndividualProfile
         fields = [
-                     "first_name",
-                     "last_name",
-                     "birth_date",
-                     "profession",
-                     "title_prefix",
-                     "title_suffix",
-                 ] + MemberProfileSerializer.Meta.fields
+            "first_name",
+            "last_name",
+            "birth_date",
+            "profession",
+            "title_prefix",
+            "title_suffix",
+        ] + MemberProfileSerializer.Meta.fields
 
 
 class MemberTypeField(Field):

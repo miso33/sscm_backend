@@ -19,7 +19,8 @@ class ExistsIndividualCreateService(ProfileCreateService):
                 datum_nar=datetime.strptime(
                     self.profile_data["birth_date"], "%Y-%m-%d"
                 ),
-            ).values(
+            )
+            .values(
                 "status",
                 parish=F("farnost_id"),
                 city=F("obec"),
@@ -32,6 +33,7 @@ class ExistsIndividualCreateService(ProfileCreateService):
                 profession=F("povolanie"),
                 title_prefix=F("titul"),
                 title_suffix=F("titul2"),
-            ).get()
+            )
+            .get()
         )
         return {**self.profile_data, **original_member}

@@ -27,8 +27,11 @@ Framework : Django 3.2.9
 
 ## Linters
 #### Black: python code formatter:
-`$ black directory/`
+`$ black sscm/`
 
 ### Flake8
 `$ flake8 --output-file=flake8.txt`  
 configuration file is in setup.cfg
+
+### Pylint
+`$ pylint sscm/`

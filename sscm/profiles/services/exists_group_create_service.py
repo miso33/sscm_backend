@@ -11,9 +11,8 @@ class ExistsGroupCreateService(ProfileCreateService):
 
     def get_data(self):
         original_member = (
-            OriginalMember.objects.filter(
-                surname__iexact=self.profile_data["name"]
-            ).values(
+            OriginalMember.objects.filter(surname__iexact=self.profile_data["name"])
+            .values(
                 "status",
                 parish=F("farnost_id"),
                 city=F("obec"),
@@ -23,7 +22,8 @@ class ExistsGroupCreateService(ProfileCreateService):
                 enter_date=F("datum_vstupu"),
                 member_number=F("cl_cislo"),
                 note=F("poznamka"),
-            ).get()
+            )
+            .get()
         )
 
         return {**self.profile_data, **original_member}
