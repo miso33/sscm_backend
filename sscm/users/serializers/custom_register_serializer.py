@@ -40,5 +40,6 @@ class CustomRegisterSerializer(RegisterSerializer):
             logger.error(error)
             raise serializers.ValidationError({"data": "Zadaný člen sa nenachádza v stare databáze viackrát."})
         except Exception as error:
-            logger.error(error)
+            # logger.error(error)
+            logger.exception(error)
             raise serializers.ValidationError({"data": "Undefined error"})
