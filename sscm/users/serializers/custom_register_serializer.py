@@ -9,7 +9,6 @@ from rest_framework.exceptions import ValidationError
 
 from sscm.originaldata.models import OriginalMember
 from sscm.profiles.services import SelectProfileCreateService
-from sentry_sdk import capture_exception
 
 logger = logging.getLogger(__name__)
 UserModel = get_user_model()
@@ -32,18 +31,14 @@ class CustomRegisterSerializer(RegisterSerializer):
                 else:
                     raise serializers.ValidationError(profile_instance.errors())
         except OriginalMember.DoesNotExist as error:
-            capture_exception(error)
-            logger.error(f'{error}-{request.data}')
-            raise serializers.ValidationError({"member": "Zadaný člen sa nenachádza v stare databáze."})
+            logger.error(error)
+            raise serializers.ValidationError({"data": "Zadaný člen sa nenachádza v stare databáze."})
         except ValidationError as error:
-            capture_exception(error)
             logger.error(error)
             raise error
         except MultipleObjectsReturned as error:
-            capture_exception(error)
             logger.error(error)
-            raise serializers.ValidationError({"member": "Zadaný člen sa nenachádza v stare databáze viackrát."})
+            raise serializers.ValidationError({"data": "Zadaný člen sa nenachádza v stare databáze viackrát."})
         except Exception as error:
-            capture_exception(error)
             logger.error(error)
-            raise serializers.ValidationError({"error": "Undefined error"})
+            raise serializers.ValidationError({"data": "Undefined error"})

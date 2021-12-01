@@ -140,7 +140,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
 
     def test_exists_group_profiles_already_registered(self):
         password = UserFactory.build().password
-        group_profile = GroupProfile()
+        group_profile = GroupProfileFactory()
 
         OriginalMemberFactory(
             firstname="x",
