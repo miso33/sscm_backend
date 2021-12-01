@@ -5,6 +5,7 @@ from rest_framework import status
 from sscm.originaldata.factories import OriginalMemberFactory
 from sscm.users.tests.base import UserAPITestCase
 from ..factories import UserFactory
+from ...profiles.factories import IndividualProfileFactory
 from ...profiles.models import GroupProfile, IndividualProfile
 
 UserModel = get_user_model()
@@ -135,16 +136,15 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
         self.assertEqual(group_profile.get().member_type, "FOUNDER")
         self.assertEqual(group_profile.get().status, "DECEASED")
 
-    def test_exists_two_same_individual_profiles(self):
+    def test_exists_group_profiles_already_registered(self):
         password = UserFactory.build().password
-        original_member = OriginalMemberFactory(druh_clenstva="Z", status="Z")
+        group_profile = GroupProfile()
+
         OriginalMemberFactory(
-            firstname=original_member.firstname,
-            surname=original_member.surname,
-            datum_nar=original_member.datum_nar,
+            firstname="x",
+            surname=group_profile.name,
         )
         email = UserFactory.build().email
-
         response = self.client.post(
             path=reverse("rest_register"),
             data={
@@ -152,14 +152,12 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
                 "password1": password,
                 "password2": password,
                 "profile": {
-                    "first_name": original_member.firstname,
-                    "last_name": original_member.surname,
-                    "birth_date": original_member.datum_nar,
+                    "name": group_profile.name,
                     "exists": True,
-                    "member_type": "BASIC",
+                    "member_type": "GROUP",
                 },
             },
         )
-        self.assertEqual(response.json()["error"], "Undefined error")
+        self.assertIn("name", response.json())
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertFalse(UserModel.objects.filter(email=email))
