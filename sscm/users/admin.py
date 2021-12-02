@@ -5,8 +5,19 @@ from django.contrib.auth.admin import UserAdmin
 UserModel = get_user_model()
 
 
-@admin.register(UserModel)
 class CustomUserAdmin(UserAdmin):
+    list_display = (
+        "email",
+        "username",
+        "is_staff",
+        "date_joined",
+    )
+
+    filter = (
+        "is_staff",
+        "is_active"
+    )
+
     def get_queryset(self, request):
         query_set = super().get_queryset(request)
         if not request.user.is_superuser:
@@ -22,3 +33,6 @@ class CustomUserAdmin(UserAdmin):
         if not request.user.is_superuser:
             rof += ("is_staff", "is_superuser", "groups", "user_permissions")
         return rof
+
+
+admin.site.register(UserModel, CustomUserAdmin)
