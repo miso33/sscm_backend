@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db.models import F
+from rest_framework import serializers
 
 from sscm.profiles.serializers import IndividualExistsProfileSerializer
 from .profile_create_service import ProfileCreateService
@@ -20,7 +21,7 @@ class ExistsIndividualCreateService(ProfileCreateService):
                     self.profile_data["birth_date"], "%Y-%m-%d"
                 ),
             )
-            .values(
+                .values(
                 "status",
                 parish=F("farnost_id"),
                 city=F("obec"),
@@ -34,6 +35,14 @@ class ExistsIndividualCreateService(ProfileCreateService):
                 title_prefix=F("titul"),
                 title_suffix=F("titul2"),
             )
-            .get()
+
         )
-        return {**self.profile_data, **original_member}
+        if not original_member.exists():
+            raise serializers.ValidationError(
+                {"data": "Zadaný člen sa nenachádza v stare databáze."}
+            )
+        elif original_member.count() > 1:
+            raise serializers.ValidationError(
+                {"data": "Zadaný člen sa nachádza v stare databáze viackrát."}
+            )
+        return {**self.profile_data, **original_member.get()}

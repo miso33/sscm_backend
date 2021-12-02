@@ -32,6 +32,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         group_profile = GroupProfile.objects.filter(name=surname)
+        # print(response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(group_profile.exists())
         self.assertEqual(group_profile.get().member_type, "FOUNDER")
@@ -81,7 +82,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("data", response.json())
+        self.assertIn("nenachádza", response.json()["data"])
         self.assertFalse(GroupProfile.objects.filter(name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -105,7 +106,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("data", response.json())
+        self.assertIn("nenachádza", response.json()["data"])
         self.assertFalse(IndividualProfile.objects.filter(last_name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -188,7 +189,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("data", response.json())
+        self.assertNotIn("nenachádza", response.json()["data"])
         self.assertFalse(GroupProfile.objects.filter(name=group_profile.name))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -219,6 +220,6 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("data", response.json())
+        self.assertNotIn("nenachádza", response.json()["data"])
         self.assertFalse(GroupProfile.objects.filter(name=individual_profile.last_name))
         self.assertFalse(UserModel.objects.filter(email=email))

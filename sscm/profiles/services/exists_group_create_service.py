@@ -4,6 +4,8 @@ from sscm.profiles.serializers import GroupExistsProfileSerializer
 from .profile_create_service import ProfileCreateService
 from ...originaldata.models import OriginalMember
 
+from rest_framework import serializers
+
 
 class ExistsGroupCreateService(ProfileCreateService):
     def get_profile_serializer(self):
@@ -12,7 +14,7 @@ class ExistsGroupCreateService(ProfileCreateService):
     def get_data(self):
         original_member = (
             OriginalMember.objects.filter(surname__iexact=self.profile_data["name"])
-            .values(
+                .values(
                 "status",
                 parish=F("farnost_id"),
                 city=F("obec"),
@@ -23,7 +25,14 @@ class ExistsGroupCreateService(ProfileCreateService):
                 member_number=F("cl_cislo"),
                 note=F("poznamka"),
             )
-            .get()
         )
 
-        return {**self.profile_data, **original_member}
+        if not original_member.exists():
+            raise serializers.ValidationError(
+                {"data": "Zadaný člen sa nenachádza v stare databáze."}
+            )
+        elif original_member.count() > 1:
+            raise serializers.ValidationError(
+                {"data": "Zadaný člen sa nachádza v stare databáze viackrát."}
+            )
+        return {**self.profile_data, **original_member.get()}

@@ -30,19 +30,19 @@ class CustomRegisterSerializer(RegisterSerializer):
                     profile_instance.save()
                 else:
                     raise serializers.ValidationError(profile_instance.errors())
-        except OriginalMember.DoesNotExist as error:
-            logger.exception(error)
-            raise serializers.ValidationError(
-                {"data": "Zadaný člen sa nenachádza v stare databáze."}
-            )
+        # except OriginalMember.DoesNotExist as error:
+        #     logger.exception(error)
+        #     raise serializers.ValidationError(
+        #         {"data": "Zadaný člen sa nenachádza v stare databáze."}
+        #     )
         except ValidationError as error:
             logger.exception(error)
             raise error
-        except MultipleObjectsReturned as error:
-            logger.exception(error)
-            raise serializers.ValidationError(
-                {"data": "Zadaný člen sa nachádza v stare databáze viackrát."}
-            )
+        # except MultipleObjectsReturned as error:
+        #     logger.exception(error)
+        #     raise serializers.ValidationError(
+        #         {"data": "Zadaný člen sa nachádza v stare databáze viackrát."}
+        #     )
         except Exception as error:
             logger.exception(error)
             raise serializers.ValidationError({"data": "Undefined error"})
