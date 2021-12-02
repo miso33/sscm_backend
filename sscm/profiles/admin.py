@@ -9,6 +9,7 @@ class GroupProfileAdmin(BaseAdmin):
         "name",
         "parish",
         "status",
+        # "user__email",
     )
     search_fields = ["name"]
     list_filter = ["status"]
