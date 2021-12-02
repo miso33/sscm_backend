@@ -13,10 +13,7 @@ class CustomUserAdmin(UserAdmin):
         "date_joined",
     )
 
-    list_filter = (
-        "is_staff",
-        "is_active"
-    )
+    list_filter = ("is_staff", "is_active")
 
     def get_queryset(self, request):
         query_set = super().get_queryset(request)

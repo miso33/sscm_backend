@@ -1,10 +1,9 @@
 from django.db.models import F
+from rest_framework import serializers
 
 from sscm.profiles.serializers import GroupExistsProfileSerializer
 from .profile_create_service import ProfileCreateService
 from ...originaldata.models import OriginalMember
-
-from rest_framework import serializers
 
 
 class ExistsGroupCreateService(ProfileCreateService):
@@ -12,19 +11,18 @@ class ExistsGroupCreateService(ProfileCreateService):
         return GroupExistsProfileSerializer(data=self.get_data())
 
     def get_data(self):
-        original_member = (
-            OriginalMember.objects.filter(surname__iexact=self.profile_data["name"])
-                .values(
-                "status",
-                parish=F("farnost_id"),
-                city=F("obec"),
-                address=F("adresa"),
-                zip=F("psc"),
-                member_type=F("druh_clenstva"),
-                enter_date=F("datum_vstupu"),
-                member_number=F("cl_cislo"),
-                note=F("poznamka"),
-            )
+        original_member = OriginalMember.objects.filter(
+            surname__iexact=self.profile_data["name"].strip()
+        ).values(
+            "status",
+            parish=F("farnost_id"),
+            city=F("obec"),
+            address=F("adresa"),
+            zip=F("psc"),
+            member_type=F("druh_clenstva"),
+            enter_date=F("datum_vstupu"),
+            member_number=F("cl_cislo"),
+            note=F("poznamka"),
         )
 
         if not original_member.exists():

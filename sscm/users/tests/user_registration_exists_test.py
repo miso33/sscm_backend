@@ -32,7 +32,6 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         group_profile = GroupProfile.objects.filter(name=surname)
-        # print(response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(group_profile.exists())
         self.assertEqual(group_profile.get().member_type, "FOUNDER")
@@ -223,3 +222,55 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
         self.assertNotIn("nenachádza", response.json()["data"])
         self.assertFalse(GroupProfile.objects.filter(name=individual_profile.last_name))
         self.assertFalse(UserModel.objects.filter(email=email))
+
+    def test_exists_individual_profile_whitespace(self):
+        password = UserFactory.build().password
+        original_member = OriginalMemberFactory(druh_clenstva="Z", status="Z")
+        response = self.client.post(
+            path=reverse("rest_register"),
+            data={
+                "email": UserFactory.build().email,
+                "password1": password,
+                "password2": password,
+                "profile": {
+                    "first_name": f"{original_member.firstname} ",
+                    "last_name": f"{original_member.surname} ",
+                    "birth_date": original_member.datum_nar,
+                    "exists": True,
+                    "member_type": "BASIC",
+                },
+            },
+        )
+        individual_profile = IndividualProfile.objects.filter(
+            last_name=original_member.surname
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(individual_profile.exists())
+        self.assertEqual(individual_profile.get().member_type, "FOUNDER")
+        self.assertEqual(individual_profile.get().status, "DECEASED")
+
+    def test_exists_group_profile_whitespace(self):
+        password = UserFactory.build().password
+        surname = OriginalMemberFactory.build().surname
+        OriginalMemberFactory(
+            firstname="x", druh_clenstva="Z", status="Z", surname=surname.capitalize()
+        )
+        response = self.client.post(
+            path=reverse("rest_register"),
+            data={
+                "email": UserFactory.build().email,
+                "password1": password,
+                "password2": password,
+                "profile": {
+                    "name": f"{surname} ",
+                    "exists": True,
+                    "member_type": "GROUP",
+                },
+            },
+        )
+        group_profile = GroupProfile.objects.filter(name=surname)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(group_profile.exists())
+        self.assertEqual(group_profile.get().member_type, "FOUNDER")
+        self.assertEqual(group_profile.get().status, "DECEASED")
