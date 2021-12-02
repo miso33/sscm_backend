@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
         "date_joined",
     )
 
-    filter = (
+    list_filter = (
         "is_staff",
         "is_active"
     )
