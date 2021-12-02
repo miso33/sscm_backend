@@ -39,7 +39,7 @@ class VideoAPITestCase(BaseAPITestCase):
         response = self.client.get(
             path=reverse("get_code"),
         )
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_get_code_inactive_profile(self):
         VideoFactory()

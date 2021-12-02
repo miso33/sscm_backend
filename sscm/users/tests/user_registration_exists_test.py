@@ -5,7 +5,7 @@ from rest_framework import status
 from sscm.originaldata.factories import OriginalMemberFactory
 from sscm.users.tests.base import UserAPITestCase
 from ..factories import UserFactory
-from ...profiles.factories import GroupProfileFactory
+from ...profiles.factories import GroupProfileFactory, IndividualProfileFactory
 from ...profiles.models import GroupProfile, IndividualProfile
 
 UserModel = get_user_model()
@@ -81,7 +81,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("member", response.json())
+        self.assertIn("data", response.json())
         self.assertFalse(GroupProfile.objects.filter(name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -105,7 +105,7 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("member", response.json())
+        self.assertIn("data", response.json())
         self.assertFalse(IndividualProfile.objects.filter(last_name=surname))
         self.assertFalse(UserModel.objects.filter(email=email))
 
@@ -188,6 +188,37 @@ class UserRegistrationExistsAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("member", response.json())
+        self.assertIn("data", response.json())
         self.assertFalse(GroupProfile.objects.filter(name=group_profile.name))
+        self.assertFalse(UserModel.objects.filter(email=email))
+
+    def test_two_exists_individual_in_original_data(self):
+        password = UserFactory.build().password
+        individual_profile = IndividualProfileFactory.build()
+
+        OriginalMemberFactory.create_batch(
+            2,
+            firstname=individual_profile.first_name,
+            surname=individual_profile.last_name,
+            datum_nar=individual_profile.birth_date,
+        )
+        email = UserFactory.build().email
+        response = self.client.post(
+            path=reverse("rest_register"),
+            data={
+                "email": email,
+                "password1": password,
+                "password2": password,
+                "profile": {
+                    "first_name": individual_profile.first_name,
+                    "last_name": individual_profile.last_name,
+                    "birth_date": individual_profile.birth_date,
+                    "exists": True,
+                    "member_type": "BASIC",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("data", response.json())
+        self.assertFalse(GroupProfile.objects.filter(name=individual_profile.last_name))
         self.assertFalse(UserModel.objects.filter(email=email))

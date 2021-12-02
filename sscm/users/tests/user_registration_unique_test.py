@@ -78,7 +78,7 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("error", response.json())
+        self.assertIn("name", response.json())
         self.assertFalse(User.objects.filter(email=email).exists())
 
     def test_new_individual_profile(self):

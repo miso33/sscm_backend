@@ -41,7 +41,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         except MultipleObjectsReturned as error:
             logger.exception(error)
             raise serializers.ValidationError(
-                {"data": "Zadaný člen sa nenachádza v stare databáze viackrát."}
+                {"data": "Zadaný člen sa nachádza v stare databáze viackrát."}
             )
         except Exception as error:
             logger.exception(error)
