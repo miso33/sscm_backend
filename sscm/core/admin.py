@@ -3,6 +3,11 @@ from import_export.admin import ImportExportModelAdmin
 
 class BaseAdmin(ImportExportModelAdmin):
     exclude = ("status_changed", "is_removed")
+    title = ""
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {"title": self.title}
+        return super().changelist_view(request, extra_context=extra_context)
 
 
 class BaseStatusAdmin(BaseAdmin):

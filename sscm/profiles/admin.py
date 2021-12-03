@@ -1,38 +1,48 @@
 from django.contrib import admin
 
-from sscm.core.admin import BaseAdmin
+from sscm.core.admin import BaseAdmin, BaseStatusAdmin
 from .models import GroupProfile, IndividualProfile, MemberProfile
 
 
-class GroupProfileAdmin(BaseAdmin):
+class ProfileAdmin(BaseAdmin):
     list_display = (
-        "name",
+        "member_type",
         "parish",
         "status",
-        # "user__email",
+        "user_username",
+        "date_joined",
     )
-    search_fields = ["name"]
     list_filter = ["status"]
+
+    @admin.display(
+        description='Používateľské meno',
+    )
+    def user_username(self, obj):
+        return obj.user.username
+
+    @admin.display(
+        description='Dátum registrácie',
+    )
+    def date_joined(self, obj):
+        return obj.user.date_joined
+
+
+class GroupProfileAdmin(ProfileAdmin):
+    list_display = ("name",) + ProfileAdmin.list_display
+    search_fields = ["name"]
+    title = "Skupiny"
 
     def get_queryset(self, request):
         return GroupProfile.all_objects.all()
 
-    def changelist_view(self, request, extra_context=None):
-        extra_context = {"title": "Skupiny"}
-        return super().changelist_view(request, extra_context=extra_context)
 
-
-class IndividualProfileAdmin(BaseAdmin):
-    list_display = ("status", "member_type", "first_name", "last_name", "parish")
+class IndividualProfileAdmin(ProfileAdmin):
+    list_display = ("first_name", "last_name", "member_type") + ProfileAdmin.list_display
     search_fields = ["first_name", "last_name"]
-    list_filter = ["status"]
+    title = "Jednotlivci"
 
     def get_queryset(self, request):
-        return IndividualProfile.objects.all()
-
-    def changelist_view(self, request, extra_context=None):
-        extra_context = {"title": "Jednotlivci"}
-        return super().changelist_view(request, extra_context=extra_context)
+        return IndividualProfile.all_objects.all()
 
 
 class MemberProfileAdmin(BaseAdmin):

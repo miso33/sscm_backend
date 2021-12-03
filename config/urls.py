@@ -15,7 +15,7 @@ from sscm.captcha.views import CaptchaView
 from sscm.parishes.views import ParishList
 from sscm.video.views import CodeView
 
-admin.site.site_header = "Administrácia členov SSCM"
+admin.site.site_header = "Členská zóna SSCM"
 urlpatterns = (
     [
         path("account-confirm-email/<str:key>/", ConfirmEmailView.as_view()),
