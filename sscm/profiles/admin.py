@@ -6,7 +6,7 @@ from .models import GroupProfile, IndividualProfile, MemberProfile
 
 class ProfileAdmin(BaseAdmin):
     list_display = (
-        "member_type",
+        "member_number",
         "parish",
         "status",
         "user_username",
