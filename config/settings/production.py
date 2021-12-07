@@ -14,7 +14,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 sentry_sdk.init(
-    dsn="https://38796778ae604162a86e75455e208833@o1070615.ingest.sentry.io/6085002",
+    dsn="https://90e4eabab75c4759a662b02a0d5887f1@o1085724.ingest.sentry.io/6096984",
     integrations=[DjangoIntegration()],
     traces_sample_rate=1.0,
     send_default_pii=True,
