@@ -35,7 +35,7 @@ class MemberProfile(BaseModel):
     status = models.CharField(
         max_length=10,
         choices=Status.choices,
-        default=Status.INACTIVE,
+        default=Status.ACTIVE,
         verbose_name="Status",
     )
 
