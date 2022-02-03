@@ -1,1 +1,1 @@
-from .views import BaseView
+from .views import BaseView, BaseListView

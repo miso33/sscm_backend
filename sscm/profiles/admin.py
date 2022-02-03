@@ -12,6 +12,7 @@ class GroupProfileAdmin(BaseAdmin):
     )
     search_fields = ["name"]
     list_filter = ["status"]
+    fields = ["name", "user"]
 
     def get_queryset(self, request):
         return GroupProfile.all_objects.all()

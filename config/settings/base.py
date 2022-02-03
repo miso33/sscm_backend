@@ -37,7 +37,7 @@ THIRD_PARTY_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "rest_framework_simplejwt.token_blacklist",
-    "rest_framework_filters",
+    # "rest_framework_filters",
     "import_export",
     "corsheaders",
     "rest_framework_swagger",
@@ -46,9 +46,11 @@ THIRD_PARTY_APPS = [
 
 DRF_RECAPTCHA_TESTING_PASS = False
 PROJECT_APPS = [
+    "sscm.exchanges",
     "sscm.originaldata",
     "sscm.parishes",
     "sscm.profiles",
+    "sscm.sponsors",
     "sscm.video",
     "sscm.users",
 ]
@@ -138,11 +140,11 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.DjangoModelPermissions",
         "rest_framework.permissions.DjangoModelPermissions",
     ],
-    "DEFAULT_FILTER_BACKENDS": (
-        "rest_framework_filters.backends.RestFrameworkFilterBackend",
-        "rest_framework_filters.backends.ComplexFilterBackend",
-        "rest_framework.filters.OrderingFilter",
-    ),
+    # "DEFAULT_FILTER_BACKENDS": (
+    #     # "rest_framework_filters.backends.RestFrameworkFilterBackend",
+    #     "rest_framework_filters.backends.ComplexFilterBackend",
+    #     "rest_framework.filters.OrderingFilter",
+    # ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DATETIME_INPUT_FORMATS": ["%Y-%m-%dT%H:%M:%S.%f"],
     "DATE_FORMAT": "%Y-%m-%d",
@@ -190,7 +192,7 @@ REST_USE_JWT = True
 
 LANGUAGE_CODE = "sk"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "CET"
 
 USE_I18N = True
 
