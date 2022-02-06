@@ -10,7 +10,7 @@ class CodeView(APIView):
     permission_classes = [CanWatchMovie]
 
     def get(self, request):
-        video = Video.objects.last()
+        video = Video.objects.first()
         if video:
             return Response({"code": video.code}, status=status.HTTP_200_OK)
         return Response(
