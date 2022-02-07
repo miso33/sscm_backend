@@ -15,4 +15,6 @@ django-environ==0.8.1
 django-cors-headers==3.10.0
 django-rest-swagger
 drf_recaptcha
-
+pytest-django==4.5.2
+psycopg2-binary==2.9.2
+drf-renderer-xlsx==0.4.4
