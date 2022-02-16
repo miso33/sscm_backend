@@ -26,6 +26,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres"
 ]
 
 THIRD_PARTY_APPS = [
@@ -46,6 +47,7 @@ THIRD_PARTY_APPS = [
 
 DRF_RECAPTCHA_TESTING_PASS = False
 PROJECT_APPS = [
+    "sscm.death_notices",
     "sscm.originaldata",
     "sscm.parishes",
     "sscm.profiles",
@@ -109,7 +111,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth"
-        ".password_validation.UserAttributeSimilarityValidator",
+                ".password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",

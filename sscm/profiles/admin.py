@@ -4,6 +4,7 @@ from sscm.core.admin import BaseAdmin
 from .models import GroupProfile, IndividualProfile, MemberProfile
 
 
+@admin.register(GroupProfile)
 class GroupProfileAdmin(BaseAdmin):
     list_display = (
         "name",
@@ -21,6 +22,7 @@ class GroupProfileAdmin(BaseAdmin):
         return super().changelist_view(request, extra_context=extra_context)
 
 
+@admin.register(IndividualProfile)
 class IndividualProfileAdmin(BaseAdmin):
     list_display = ("status", "member_type", "first_name", "last_name", "parish")
     search_fields = ["first_name", "last_name"]
@@ -33,12 +35,6 @@ class IndividualProfileAdmin(BaseAdmin):
         extra_context = {"title": "Jednotlivci"}
         return super().changelist_view(request, extra_context=extra_context)
 
-
-class MemberProfileAdmin(BaseAdmin):
-    def get_queryset(self, request):
-        return MemberProfile.all_objects.all()
-
-
-admin.site.register(GroupProfile, GroupProfileAdmin)
-admin.site.register(IndividualProfile, IndividualProfileAdmin)
-admin.site.register(MemberProfile, MemberProfileAdmin)
+# @admin.register(IndividualProfile)
+# class MemberProfileAdmin(MemberProfile):
+#     pass

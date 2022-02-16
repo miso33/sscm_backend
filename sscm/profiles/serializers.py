@@ -32,7 +32,11 @@ class MemberProfileSerializer(serializers.ModelSerializer):
             "enter_date",
             "member_type",
             "status",
+            "note",
         ]
+        extra_kwargs = {
+            'note': {'write_only': True}
+        }
 
 
 class GroupProfileSerializer(MemberProfileSerializer):
@@ -45,13 +49,13 @@ class IndividualProfileSerializer(MemberProfileSerializer):
     class Meta:
         model = IndividualProfile
         fields = [
-            "first_name",
-            "last_name",
-            "birth_date",
-            "profession",
-            "title_prefix",
-            "title_suffix",
-        ] + MemberProfileSerializer.Meta.fields
+                     "first_name",
+                     "last_name",
+                     "birth_date",
+                     "profession",
+                     "title_prefix",
+                     "title_suffix",
+                 ] + MemberProfileSerializer.Meta.fields
 
 
 class MemberTypeField(Field):
