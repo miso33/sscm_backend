@@ -12,6 +12,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from sscm.captcha.views import CaptchaView
+from sscm.death_notices.views import DeathNoticeCreateView
 from sscm.parishes.views import ParishList
 from sscm.video.views import CodeView
 
@@ -28,6 +29,7 @@ urlpatterns = (
         path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
         path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
         path("parishes/", ParishList.as_view(), name="parish-list"),
+        path("death_note/", DeathNoticeCreateView.as_view(), name="death-note-create"),
         #     path('password-reset/', PasswordResetView.as_view()),
         #     path(‘password - reset - confirm / < uidb64 > / < token > / ',
         # PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),

@@ -4,21 +4,21 @@ from sscm.core.models import BaseModel
 
 
 class OriginalMember(BaseModel):
-    firstname = models.CharField(max_length=100, blank=True)
-    surname = models.CharField(max_length=100, blank=True)
-    titul = models.CharField(max_length=50, blank=True)
-    titul2 = models.CharField(max_length=50, blank=True)
-    cl_cislo = models.IntegerField()
-    druh_clenstva = models.CharField(max_length=50, blank=True)
-    datum_nar = models.DateField(null=True)
-    povolanie = models.CharField(max_length=100, blank=True)
-    adresa = models.CharField(max_length=500, blank=True)
-    psc = models.CharField(max_length=100, blank=True)
-    obec = models.CharField(max_length=100, blank=True)
-    farnost_id = models.ForeignKey("parishes.Parish", on_delete=models.RESTRICT)
-    datum_vstupu = models.DateField(null=True)
-    status = models.CharField(max_length=100, blank=True)
-    poznamka = models.CharField(max_length=1000, blank=True)
+    firstname = models.CharField(max_length=100, blank=True, verbose_name="Krstné meno")
+    surname = models.CharField(max_length=100, blank=True, verbose_name="Priezvisko")
+    titul = models.CharField(max_length=50, blank=True, verbose_name="Titul pred menom")
+    titul2 = models.CharField(max_length=50, blank=True, verbose_name="Titul za menom")
+    cl_cislo = models.IntegerField(verbose_name="Členské číslo")
+    druh_clenstva = models.CharField(max_length=50, blank=True, verbose_name="Druh členstva")
+    datum_nar = models.DateField(null=True, verbose_name="Dátum narodenia")
+    povolanie = models.CharField(max_length=100, blank=True, verbose_name="Povolanie")
+    adresa = models.CharField(max_length=500, blank=True, verbose_name="Adresa")
+    psc = models.CharField(max_length=100, blank=True, verbose_name="PSČ")
+    obec = models.CharField(max_length=100, blank=True, verbose_name="Obec")
+    farnost_id = models.ForeignKey("parishes.Parish", on_delete=models.RESTRICT, verbose_name="Farnosť")
+    datum_vstupu = models.DateField(null=True, verbose_name="Dátum výstupu")
+    status = models.CharField(max_length=100, blank=True, verbose_name="Status")
+    poznamka = models.CharField(max_length=1000, blank=True, verbose_name="Poznámka")
 
     class Meta:
         ordering = ["surname"]

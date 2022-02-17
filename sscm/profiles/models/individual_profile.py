@@ -24,6 +24,7 @@ class IndividualProfile(MemberProfile):
     title_suffix = models.CharField(
         max_length=50, blank=True, verbose_name="Titul za menom"
     )
+    death_date = models.DateField(null=True, blank=True, verbose_name="Dátum úmrtia")
 
     class Meta:
         ordering = ["last_name"]

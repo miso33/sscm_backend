@@ -25,6 +25,7 @@ class MemberProfile(BaseModel):
     address = models.CharField(max_length=1000, blank=True, verbose_name="Adresa")
     zip = models.CharField(max_length=100, blank=True, verbose_name="PSČ")
     enter_date = models.DateField(null=True, blank=True, verbose_name="Dátum vstupu")
+    leave_date = models.DateField(null=True, blank=True, verbose_name="Dátum vyradenia")
     note = models.CharField(max_length=5000, blank=True, verbose_name="Poznámka")
     member_type = models.CharField(
         max_length=10,
@@ -49,4 +50,4 @@ class MemberProfile(BaseModel):
         ]
 
     def __str__(self):
-        return str(self.member_number)
+        return f'{self.member_number}'

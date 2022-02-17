@@ -26,6 +26,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres"
 ]
 
 THIRD_PARTY_APPS = [
@@ -37,7 +38,7 @@ THIRD_PARTY_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "rest_framework_simplejwt.token_blacklist",
-    "rest_framework_filters",
+    # "rest_framework_filters",
     "import_export",
     "corsheaders",
     "rest_framework_swagger",
@@ -46,6 +47,7 @@ THIRD_PARTY_APPS = [
 
 DRF_RECAPTCHA_TESTING_PASS = False
 PROJECT_APPS = [
+    "sscm.death_notices",
     "sscm.originaldata",
     "sscm.parishes",
     "sscm.profiles",
@@ -109,7 +111,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth"
-        ".password_validation.UserAttributeSimilarityValidator",
+                ".password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -138,11 +140,11 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.DjangoModelPermissions",
         "rest_framework.permissions.DjangoModelPermissions",
     ],
-    "DEFAULT_FILTER_BACKENDS": (
-        "rest_framework_filters.backends.RestFrameworkFilterBackend",
-        "rest_framework_filters.backends.ComplexFilterBackend",
-        "rest_framework.filters.OrderingFilter",
-    ),
+    # "DEFAULT_FILTER_BACKENDS": (
+    #     "rest_framework_filters.backends.RestFrameworkFilterBackend",
+    #     "rest_framework_filters.backends.ComplexFilterBackend",
+    #     "rest_framework.filters.OrderingFilter",
+    # ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DATETIME_INPUT_FORMATS": ["%Y-%m-%dT%H:%M:%S.%f"],
     "DATE_FORMAT": "%Y-%m-%d",
