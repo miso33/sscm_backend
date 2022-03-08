@@ -1,18 +1,47 @@
 from django.contrib import admin
+from django.contrib.admin.options import InlineModelAdmin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth import get_user_model
 
 from sscm.core.admin import BaseAdmin
 from .models import GroupProfile, IndividualProfile, MemberProfile
 
+UserModel = get_user_model()
 
-@admin.register(GroupProfile)
-class GroupProfileAdmin(BaseAdmin):
+
+class ProfileAdmin(BaseAdmin):
     list_display = (
-        "name",
+        "member_number",
         "parish",
         "status",
+        "user_username",
+        "created",
     )
+    list_filter = ["status"]
+
+    @admin.display(
+        description='Používateľské meno',
+    )
+    def user_username(self, obj):
+        return obj.user.username
+
+    # @admin.display(
+    #     description='Dátum registrácie',
+    # )
+    # def date_joined(self, obj):
+    #     return obj.created
+
+
+@admin.register(GroupProfile)
+class GroupProfileAdmin(ProfileAdmin):
+    list_display = (
+                       "name",
+                       "parish",
+                       "status",
+                   ) + ProfileAdmin.list_display
     search_fields = ["name"]
     list_filter = ["status"]
+    fields = ["name", "user"]
 
     def get_queryset(self, request):
         return GroupProfile.all_objects.all()
@@ -23,10 +52,12 @@ class GroupProfileAdmin(BaseAdmin):
 
 
 @admin.register(IndividualProfile)
-class IndividualProfileAdmin(BaseAdmin):
-    list_display = ("status", "member_type", "first_name", "last_name", "parish")
+class IndividualProfileAdmin(ProfileAdmin):
+    list_display = ("status", "member_type", "first_name", "last_name", "parish") + ProfileAdmin.list_display
     search_fields = ["first_name", "last_name"]
     list_filter = ["status"]
+
+    # inlines = [CustomInlineUserAdmin]
 
     def get_queryset(self, request):
         return IndividualProfile.objects.all()

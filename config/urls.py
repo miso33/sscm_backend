@@ -8,45 +8,69 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from django.contrib.auth.views import (
+    PasswordResetCompleteView,
+    # PasswordResetConfirmView,
+    # PasswordResetView,
+)
 from django.conf.urls.static import static
 from django.conf import settings
 
 from sscm.captcha.views import CaptchaView
 from sscm.death_notices.views import DeathNoticeCreateView
 from sscm.parishes.views import ParishList
+from sscm.exchanges.views import StudentListView
 from sscm.video.views import CodeView
+from dj_rest_auth.views import (
+    PasswordResetView,
+    PasswordResetConfirmView,
+    PasswordChangeView
+)
 
 admin.site.site_header = "Členská zóna SSCM"
 urlpatterns = (
-    [
-        path("account-confirm-email/<str:key>/", ConfirmEmailView.as_view()),
-        path("admin/", admin.site.urls),
-        path("account/", include("dj_rest_auth.urls")),
-        path("account/registration/", include("dj_rest_auth.registration.urls")),
-        path("login/", LoginView.as_view()),
-        path("logout/", LogoutView.as_view()),
-        path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-        path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-        path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-        path("parishes/", ParishList.as_view(), name="parish-list"),
-        path("death_note/", DeathNoticeCreateView.as_view(), name="death-note-create"),
-        #     path('password-reset/', PasswordResetView.as_view()),
-        #     path(‘password - reset - confirm / < uidb64 > / < token > / ',
-        # PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
-        path("verify-email/", VerifyEmailView.as_view(), name="rest_verify_email"),
-        path(
-            "dj-rest-auth/account-confirm-email/",
-            VerifyEmailView.as_view(),
-            name="account_email_verification_sent",
-        ),
-        re_path(
-            r"^account-confirm-email/(?P<key>[-:\w]+)/$",
-            VerifyEmailView.as_view(),
-            name="account_confirm_email",
-        ),
-        path("captcha/", CaptchaView.as_view()),
-        path("video/", CodeView.as_view(), name="get_code"),
-    ]
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+        [
+            path("account-confirm-email/<str:key>/", ConfirmEmailView.as_view()),
+            path("admin/", admin.site.urls),
+            path("account/", include("dj_rest_auth.urls")),
+            path("account/registration/", include("dj_rest_auth.registration.urls")),
+            path("login/", LoginView.as_view()),
+            path("logout/", LogoutView.as_view()),
+            path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+            path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+            path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+            path("parishes/", ParishList.as_view(), name="parish-list"),
+            path("death_note/", DeathNoticeCreateView.as_view(), name="death-note-create"),
+            path("student/", StudentListView.as_view(), name="student-list"),
+            path("verify-email/", VerifyEmailView.as_view(), name="rest_verify_email"),
+            path(
+                "dj-rest-auth/account-confirm-email/",
+                VerifyEmailView.as_view(),
+                name="account_email_verification_sent",
+            ),
+            re_path(
+                r"^account-confirm-email/(?P<key>[-:\w]+)/$",
+                VerifyEmailView.as_view(),
+                name="account_confirm_email",
+            ),
+            path('password-reset/', PasswordResetView.as_view(), name='password_reset'),
+            path(
+                'password-reset-confirm/<uidb64>/<token>/',
+                PasswordResetConfirmView.as_view(
+                    # template_name='users/password_reset_confirm.html'
+                ),
+                name='password_reset_confirm'
+            ),
+            path(
+                'password-reset-complete/',
+                PasswordChangeView.as_view(
+                    # template_name='users/password_reset_complete.html'
+                ),
+                name='password_reset_complete'
+            ),
+            path("captcha/", CaptchaView.as_view()),
+            path("video/", CodeView.as_view(), name="get_code"),
+        ]
+        + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 )

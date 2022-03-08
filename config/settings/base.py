@@ -43,14 +43,23 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "rest_framework_swagger",
     "drf_recaptcha",
+    "django_celery_results",
+    "django_celery_beat",
+    "rangefilter",
+    'easy_thumbnails',
+    'filer',
+    'mptt',
 ]
 
 DRF_RECAPTCHA_TESTING_PASS = False
 PROJECT_APPS = [
     "sscm.death_notices",
+    "sscm.exchanges",
+    "sscm.notifications",
     "sscm.originaldata",
     "sscm.parishes",
     "sscm.profiles",
+    "sscm.sponsors",
     "sscm.video",
     "sscm.users",
 ]
@@ -138,13 +147,12 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissions",
-        "rest_framework.permissions.DjangoModelPermissions",
     ],
-    # "DEFAULT_FILTER_BACKENDS": (
-    #     "rest_framework_filters.backends.RestFrameworkFilterBackend",
-    #     "rest_framework_filters.backends.ComplexFilterBackend",
-    #     "rest_framework.filters.OrderingFilter",
-    # ),
+    "DEFAULT_FILTER_BACKENDS": (
+        "rest_framework_filters.backends.RestFrameworkFilterBackend",
+        "rest_framework_filters.backends.ComplexFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DATETIME_INPUT_FORMATS": ["%Y-%m-%dT%H:%M:%S.%f"],
     "DATE_FORMAT": "%Y-%m-%d",
@@ -192,7 +200,7 @@ REST_USE_JWT = True
 
 LANGUAGE_CODE = "sk"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "CET"
 
 USE_I18N = True
 
@@ -226,3 +234,30 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
 mimetypes.add_type("text/css", ".css", True)
+
+# CELERY
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_BROKER_URL = env("BROKER_URL")
+# CELERY_BROKER_URL = env("BROKER_URL")
+
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+
+CELERY_ACCEPT_CONTENT = ["application/json"]
+
+CELERY_TASK_SERIALIZER = "json"
+
+CELERY_RESULT_SERIALIZER = "json"
+
+# CELERY_TASK_TIME_LIMIT = 5 * 60
+#
+# CELERY_TASK_SOFT_TIME_LIMIT = 60
+#
+# CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)

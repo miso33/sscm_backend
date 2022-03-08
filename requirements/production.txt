@@ -1,3 +1,4 @@
 -r base.txt
 gunicorn==20.1.0
 django-extensions==3.1.5
+sentry-sdk==1.4.3

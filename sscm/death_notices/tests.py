@@ -2,7 +2,7 @@ from django.urls import include, path
 from django.urls import reverse
 from rest_framework import status
 
-from .factories import ParishFactory, DeathNoticeFactory
+from .factories import DeathNoticeFactory
 from ..core.tests import BaseAPITestCase
 from ..users.factories import UserFactory
 

@@ -35,3 +35,6 @@ configuration file is in setup.cfg
 
 ### Pylint
 `$ pylint sscm/`
+
+
+celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
