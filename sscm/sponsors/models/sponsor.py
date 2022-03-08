@@ -1,7 +1,9 @@
 from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
+from django_countries import Countries
 
+from sscm.core.countries import SponsorCountries
 from sscm.core.models import BaseModel
 
 
@@ -16,7 +18,7 @@ class Sponsor(BaseModel):
     birth_date = models.DateField(verbose_name="Dátum narodenia")
     address = models.CharField(max_length=500, verbose_name="Adresa", blank=True)
     city = models.CharField(max_length=500, verbose_name="Mesto", blank=True)
-    country = CountryField()
+    country = CountryField(verbose_name="Krajina", countries=SponsorCountries)
     email = models.CharField(max_length=500, verbose_name="E-mail")
     phone_number = PhoneNumberField(max_length=500, verbose_name="Telefónne číslo")
     profession = models.CharField(max_length=500, verbose_name="Povolanie")

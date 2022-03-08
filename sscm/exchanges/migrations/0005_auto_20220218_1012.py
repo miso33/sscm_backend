@@ -7,7 +7,7 @@ import django.utils.timezone
 import django_countries.fields
 import model_utils.fields
 import phonenumber_field.modelfields
-import sscm.exchanges.models.base
+import sscm.core.countries
 
 
 class Migration(migrations.Migration):
@@ -32,15 +32,15 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(max_length=50, verbose_name='Priezvisko')),
                 ('birth_date', models.CharField(max_length=500, verbose_name='Dátum narodenia')),
                 ('address', models.CharField(max_length=500, verbose_name='Adresa')),
-                ('home_country', django_countries.fields.CountryField(countries=sscm.exchanges.models.base.ExchangeCountries, max_length=2, verbose_name='Domáca krajina')),
-                ('residence_country', django_countries.fields.CountryField(countries=sscm.exchanges.models.base.ExchangeCountries, max_length=2, verbose_name='Krajina pobytu')),
+                ('home_country', django_countries.fields.CountryField(countries=sscm.core.countries.ExchangeCountries, max_length=2, verbose_name='Domáca krajina')),
+                ('residence_country', django_countries.fields.CountryField(countries=sscm.core.countries.ExchangeCountries, max_length=2, verbose_name='Krajina pobytu')),
                 ('academic_year', models.IntegerField(blank=True, null=True, verbose_name='Školský rok pobytu')),
                 ('semester', models.CharField(blank=True, choices=[('WINTER', 'Zimný'), ('SUMMER', 'Letný')], default='WINTER', max_length=10, verbose_name='Polrok pobytu')),
                 ('start', models.DateField(null=True, verbose_name='Dátum začiatku')),
                 ('end', models.DateField(null=True, verbose_name='Dátum konca')),
                 ('phone_number', phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None, verbose_name='Mobilné číslo')),
                 ('university_name', models.CharField(blank=True, max_length=500, verbose_name='Univerzita názov')),
-                ('university_country', django_countries.fields.CountryField(blank=True, countries=sscm.exchanges.models.base.ExchangeCountries, max_length=2)),
+                ('university_country', django_countries.fields.CountryField(blank=True, countries=sscm.core.countries.ExchangeCountries, max_length=2)),
                 ('study_filed', models.CharField(blank=True, max_length=500, verbose_name='Študijný odbor')),
                 ('profession', models.CharField(blank=True, max_length=500, verbose_name='Povolanie')),
                 ('language', models.JSONField(verbose_name='Jazyky')),

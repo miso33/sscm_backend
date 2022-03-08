@@ -10,3 +10,7 @@ class ExchangeCountries(Countries):
         ('SK', "Slovensko"),
         ('US', "USA"),
     ]
+
+
+class SponsorCountries(ExchangeCountries):
+    pass

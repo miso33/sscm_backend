@@ -120,6 +120,43 @@ class UserRegistrationUniqueAPITestCase(UserAPITestCase):
             ).exists()
         )
 
+    def test_new_individual_profile_w_note(self):
+        password = UserFactory.build().password
+        individual_profile = IndividualProfileFactory.build()
+        response = self.client.post(
+            path=reverse("rest_register"),
+            data={
+                "email": UserFactory.build().email,
+                "password1": password,
+                "password2": password,
+                "profile": {
+                    "first_name": individual_profile.first_name,
+                    "last_name": individual_profile.last_name,
+                    "birth_date": individual_profile.birth_date,
+                    "profession": individual_profile.profession,
+                    "title_prefix": individual_profile.title_prefix,
+                    "title_suffix": individual_profile.title_suffix,
+                    "parish": ParishFactory().id,
+                    "city": individual_profile.city,
+                    "address": individual_profile.address,
+                    "zip": individual_profile.zip,
+                    "exists": False,
+                    "note": individual_profile.note,
+                    "member_type": "BASIC",
+                },
+            },
+        )
+        self.assertTrue(response.json()["user"]["profile"]["note"])
+        self.assertEqual(response.json()["user"]["profile"]["member_type"], "BASIC")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(
+            IndividualProfile.objects.filter(
+                first_name=individual_profile.first_name,
+                last_name=individual_profile.last_name,
+                birth_date=individual_profile.birth_date,
+            ).exists()
+        )
+
     # def test_is_member_type(self):
     #     password = UserFactory.build().password
     #     individual_profile = IndividualProfileFactory.build()

@@ -3,7 +3,7 @@ from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .base import ExchangeCountries
+from ...core.countries import ExchangeCountries
 from ...profiles.models import MemberProfile
 
 

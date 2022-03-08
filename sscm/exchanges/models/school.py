@@ -1,9 +1,9 @@
 from django.db import models
 
+from sscm.core.countries import ExchangeCountries
 from sscm.core.models import BaseModel
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
-from .base import ExchangeCountries
 
 
 class School(BaseModel):

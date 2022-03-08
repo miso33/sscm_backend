@@ -2,7 +2,7 @@
 
 from django.db import migrations
 import django_countries.fields
-import sscm.exchanges.models.base
+import sscm.core.countries
 
 
 class Migration(migrations.Migration):
@@ -19,16 +19,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='student',
             name='home_country',
-            field=django_countries.fields.CountryField(countries=sscm.exchanges.models.base.ExchangeCountries, max_length=2, verbose_name='Domáca krajina'),
+            field=django_countries.fields.CountryField(countries=sscm.core.countries.ExchangeCountries, max_length=2, verbose_name='Domáca krajina'),
         ),
         migrations.AlterField(
             model_name='student',
             name='residence_country',
-            field=django_countries.fields.CountryField(countries=sscm.exchanges.models.base.ExchangeCountries, max_length=2, verbose_name='Krajina pobytu'),
+            field=django_countries.fields.CountryField(countries=sscm.core.countries.ExchangeCountries, max_length=2, verbose_name='Krajina pobytu'),
         ),
         migrations.AlterField(
             model_name='student',
             name='university_country',
-            field=django_countries.fields.CountryField(blank=True, countries=sscm.exchanges.models.base.ExchangeCountries, max_length=2),
+            field=django_countries.fields.CountryField(blank=True, countries=sscm.core.countries.ExchangeCountries, max_length=2),
         ),
     ]
