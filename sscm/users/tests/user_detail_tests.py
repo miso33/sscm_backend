@@ -4,6 +4,9 @@ from rest_framework import status
 from sscm.profiles.factories import GroupProfileFactory, IndividualProfileFactory
 from sscm.users.tests.base import UserAPITestCase
 from ..factories import UserFactory
+from ...exchanges.factories import StudentProfileFactory
+
+from django.contrib.auth.models import Group
 
 
 class UserDetailAPITestCase(UserAPITestCase):
@@ -45,3 +48,18 @@ class UserDetailAPITestCase(UserAPITestCase):
         self.assertEqual(
             group_profile.parish.id, response.json()["profile"]["parish"]["id"]
         )
+
+    def test_student_profile_detail(self):
+        user = UserFactory()
+        StudentProfileFactory(user=user)
+        user.groups.add(Group.objects.create(name="exchange"))
+        user.groups.add(Group.objects.create(name="member"))
+        self.client.force_authenticate(user=user)
+        response = self.client.get(
+            path=reverse("rest_user_details"),
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsNotNone(response.json()["profile"])
+        self.assertIn("last_name", response.json()["profile"])
+        self.assertIn({'name': 'exchange'}, response.json()["permissions"])
+        self.assertNotIn("name", response.json()["profile"])

@@ -19,7 +19,7 @@ class MemberProfileSerializer(serializers.ModelSerializer):
     enter_date = serializers.DateField(read_only=True)
     member_type = serializers.CharField()
     status = serializers.CharField(read_only=True)
-    parish = ParishField()
+    parish = ParishField(required=True)
 
     class Meta:
         model = MemberProfile

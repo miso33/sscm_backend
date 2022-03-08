@@ -8,6 +8,7 @@ class MemberProfile(BaseModel):
         BASIC = "BASIC", "Riadny"
         GROUP = "GROUP", "Skupinový"
         FOUNDER = "FOUNDER", "Zakladajúci"
+        EXCHANGE = "EXCHANGE", "Absolvent"
 
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE", "Aktívny"
@@ -16,7 +17,7 @@ class MemberProfile(BaseModel):
         DECEASED = "DECEASED", "Zosnulý"
 
     parish = models.ForeignKey(
-        "parishes.Parish", on_delete=models.RESTRICT, verbose_name="Farnosť"
+        "parishes.Parish", on_delete=models.RESTRICT, verbose_name="Farnosť", null=True, blank=True
     )
     member_number = models.IntegerField(
         null=True, blank=True, verbose_name="Členské číslo"

@@ -1,12 +1,19 @@
+import pytest
 from django.urls import reverse
 from rest_framework import status
 
 from sscm.profiles.factories import GroupProfileFactory, IndividualProfileFactory
 from sscm.users.tests.base import UserAPITestCase
 from ..factories import UserFactory
+from ..models import User
+from ...exchanges.factories import StudentProfileFactory
+from ...exchanges.models import StudentProfile
+from ...parishes.factories import ParishFactory
+from ...profiles.models import GroupProfile
 
 
 class UserUpdateAPITestCase(UserAPITestCase):
+    @pytest.mark.user_update
     def test_group_profile_update(self):
         user = UserFactory()
         original_group_profile = GroupProfileFactory(user=user)
@@ -31,6 +38,7 @@ class UserUpdateAPITestCase(UserAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json()["profile"]["name"], new_group_profile.name)
 
+    @pytest.mark.user_update
     def test_individual_profile_update(self):
         user = UserFactory()
         original_individual_profile = IndividualProfileFactory(user=user)
@@ -62,3 +70,48 @@ class UserUpdateAPITestCase(UserAPITestCase):
         self.assertEqual(
             response.json()["profile"]["last_name"], individual_profile.last_name
         )
+
+    @pytest.mark.student
+    @pytest.mark.user_update
+    def test_add_student_to_member(self):
+        student = StudentProfileFactory(
+            parish=None,
+            user=UserFactory(
+                type=User.Types.EXCHANGE
+            ),
+            note=""
+        )
+        parish = ParishFactory()
+        self.client.force_authenticate(user=student.user)
+        print(student.user.type)
+        response = self.client.patch(
+            path=reverse("rest_user_details"),
+            data={
+                # "email": student.user.email,
+                "profile": {
+                    # 'first_name': student.first_name,
+                    # 'last_name': student.last_name,
+                    # 'birth_date': student.birth_date,
+                    # 'profession': student.profession,
+                    # 'title_prefix': student.title_prefix,
+                    # 'title_suffix': student.title_suffix,
+                    "parish": parish.id,
+                    "note": "fuck",
+                    # "city": student.city,
+                    # "address": student.address,
+                    # "zip": student.zip,
+                    # "member_type": "GROUP",
+                },
+            },
+        )
+        print(response.status_code)
+        print(response.json()["profile"])
+        print(response.json()["type"])
+        # print(StudentProfile.objects.count())
+        # print(User.objects.first().student_profile)
+        # #
+        # print(response.json())
+        # self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # self.assertEqual(
+        #     response.json()["profile"]["last_name"], individual_profile.last_name
+        # )

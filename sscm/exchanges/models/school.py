@@ -6,8 +6,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .base import ExchangeCountries
 
 
-
-
 class School(BaseModel):
     name = models.CharField(max_length=30, verbose_name="Názov")
     address = models.CharField(max_length=500, verbose_name="Adresa")

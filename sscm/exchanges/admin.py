@@ -1,45 +1,21 @@
+from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
 from sscm.core.admin import BaseAdmin
-from .models import School, Student
-from django import forms
-
-# class DecadeBornListFilter(admin.SimpleListFilter):
-#     # Human-readable title which will be displayed in the
-#     # right admin sidebar just above the filter options.
-#     title = _('decade born')
-#
-#     # Parameter for the filter that will be used in the URL query.
-#     parameter_name = 'decade'
-#
-#     def lookups(self, request, model_admin):
-#         return (
-#             ('birthday', _('Oslávenci (tento mesiac)')),
-#             ('90s', _('in the nineties')),
-#         )
-#
-#     def queryset(self, request, queryset):
-#         """
-#         Returns the filtered queryset based on the value
-#         provided in the query string and retrievable via
-#         `self.value()`.
-#         """
-#         # Compare the requested value (either '80s' or '90s')
-#         # to decide how to filter the queryset.
-#         if self.value() == '80s':
-#             return queryset.filter(birthday__gte=date(1980, 1, 1),
-#                                     birthday__lte=date(1989, 12, 31))
-#         if self.value() == '90s':
-#             return queryset.filter(birthday__gte=date(1990, 1, 1),
-#                                     birthday__lte=date(1999, 12, 31))
-#
-
+from .models import School, StudentProfile, Document
+from ..users.models import User
 
 DEMO_CHOICES = (
     ("SK", "Slovenčina"),
     ("DE", "Nemčina"),
     ("EN", "Angličtina"),
 )
+
+
+@admin.register(Document)
+class DocumentAdmin(BaseAdmin):
+    pass
 
 
 class YourForm(forms.ModelForm):
@@ -50,11 +26,11 @@ class YourForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Student
+        model = StudentProfile
         exclude = ["status_changed", "is_removed", "status"]
 
 
-@admin.register(Student)
+@admin.register(StudentProfile)
 class StudentAdmin(BaseAdmin):
     exclude = ["member", "status_changed", "is_removed", "status"]
     form = YourForm
@@ -67,6 +43,12 @@ class StudentAdmin(BaseAdmin):
     ]
     list_filter = ["semester", "home_country", "residence_country"]
     search_fields = ["first_name", "last_name"]
+
+    def save_model(self, request, obj, form, change):
+        obj.user.groups.add(Group.objects.get(name="exchange"))
+        obj.user.type = User.Types.EXCHANGE
+        obj.status = StudentProfile.Status.INACTIVE
+        super(StudentAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(School)

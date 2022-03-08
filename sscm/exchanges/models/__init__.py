@@ -1,2 +1,3 @@
+from .document import Document
 from .school import School
-from .student import Student
+from .student import StudentProfile
