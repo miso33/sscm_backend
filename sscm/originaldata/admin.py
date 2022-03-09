@@ -12,7 +12,7 @@ class OriginalMemberAdmin(BaseAdmin):
     search_fields = ["firstname", "surname"]
     list_filter = ["status", "druh_clenstva"]
 
-    @admin.display(description='Posledná úprava')
+    @admin.display(description='Posledná úprava', ordering='modified')
     def get_modified(self, obj):
         return obj.modified
 
