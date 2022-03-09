@@ -25,12 +25,6 @@ class ProfileAdmin(BaseAdmin):
     def user_username(self, obj):
         return obj.user.username
 
-    # @admin.display(
-    #     description='Dátum registrácie',
-    # )
-    # def date_joined(self, obj):
-    #     return obj.created
-
 
 @admin.register(GroupProfile)
 class GroupProfileAdmin(ProfileAdmin):
