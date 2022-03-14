@@ -9,7 +9,6 @@ from ..models import User
 from ...exchanges.factories import StudentProfileFactory
 from ...exchanges.models import StudentProfile
 from ...parishes.factories import ParishFactory
-from ...profiles.models import GroupProfile
 
 
 class UserUpdateAPITestCase(UserAPITestCase):
@@ -83,35 +82,15 @@ class UserUpdateAPITestCase(UserAPITestCase):
         )
         parish = ParishFactory()
         self.client.force_authenticate(user=student.user)
-        print(student.user.type)
         response = self.client.patch(
             path=reverse("rest_user_details"),
             data={
-                # "email": student.user.email,
                 "profile": {
-                    # 'first_name': student.first_name,
-                    # 'last_name': student.last_name,
-                    # 'birth_date': student.birth_date,
-                    # 'profession': student.profession,
-                    # 'title_prefix': student.title_prefix,
-                    # 'title_suffix': student.title_suffix,
                     "parish": parish.id,
-                    "note": "fuck",
-                    # "city": student.city,
-                    # "address": student.address,
-                    # "zip": student.zip,
-                    # "member_type": "GROUP",
+                    "note": StudentProfileFactory.build().note,
                 },
             },
         )
-        print(response.status_code)
-        print(response.json()["profile"])
-        print(response.json()["type"])
-        # print(StudentProfile.objects.count())
-        # print(User.objects.first().student_profile)
-        # #
-        # print(response.json())
-        # self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertEqual(
-        #     response.json()["profile"]["last_name"], individual_profile.last_name
-        # )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()["type"], User.Types.MEMBER)
+        self.assertEqual(response.json()["profile"]['status'], StudentProfile.Status.ACTIVE)

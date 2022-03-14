@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = [
     'easy_thumbnails',
     'filer',
     'mptt',
+    'nested_admin',
 ]
 
 DRF_RECAPTCHA_TESTING_PASS = False
@@ -58,6 +59,7 @@ PROJECT_APPS = [
     "sscm.notifications",
     "sscm.originaldata",
     "sscm.parishes",
+    "sscm.payments",
     "sscm.profiles",
     "sscm.sponsors",
     "sscm.video",
@@ -113,10 +115,6 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth"
@@ -131,6 +129,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 REST_FRAMEWORK = {
@@ -257,7 +260,7 @@ CELERY_RESULT_SERIALIZER = "json"
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
-    #'easy_thumbnails.processors.scale_and_crop',
+    # 'easy_thumbnails.processors.scale_and_crop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )

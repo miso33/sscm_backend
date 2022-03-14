@@ -19,6 +19,9 @@ class OriginalMember(BaseModel):
     datum_vstupu = models.DateField(null=True, verbose_name="Dátum výstupu")
     status = models.CharField(max_length=100, blank=True, verbose_name="Status")
     poznamka = models.CharField(max_length=1000, blank=True, verbose_name="Poznámka")
+    leave_date = models.DateField(null=True, blank=True, verbose_name="Dátum vyradenia")
+    death_date = models.DateField(null=True, blank=True, verbose_name="Dátum úmrtia")
+
 
     class Meta:
         ordering = ["surname"]

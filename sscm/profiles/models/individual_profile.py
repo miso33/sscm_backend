@@ -9,6 +9,8 @@ class IndividualProfile(MemberProfile):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name="Užívateľské konto",
+        null=True,
+        blank=True
     )
     first_name = models.CharField(
         max_length=100, blank=True, verbose_name="Krstné meno"

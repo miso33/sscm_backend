@@ -1,12 +1,7 @@
 from django.contrib import admin
-from django import forms
 
 from .models import Sponsor, Payment
 from ..core.admin import BaseAdmin
-
-from django.contrib.admin.widgets import AdminDateWidget
-
-
 
 
 @admin.register(Sponsor)

@@ -27,3 +27,4 @@ django-admin-rangefilter==0.8.4
 django_celery_results
 django_celery_beat
 django-filer==2.1.2
+django-nested-admin==3.4.0

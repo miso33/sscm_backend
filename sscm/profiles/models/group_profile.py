@@ -9,6 +9,8 @@ class GroupProfile(MemberProfile):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name="Užívateľské konto",
+        null=True,
+        blank=True
     )
     name = models.CharField(max_length=100, unique=True, verbose_name="Názov")
 

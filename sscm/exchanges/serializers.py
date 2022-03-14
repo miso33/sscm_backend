@@ -13,6 +13,7 @@ class StudentReadProfileSerializer(ModelSerializer):
     class Meta:
         model = StudentProfile
         fields = [
+            'id',
             'first_name',
             'last_name',
             'academic_year',
@@ -41,5 +42,6 @@ class DocumentSerializer(ModelSerializer):
     class Meta:
         model = Document
         fields = [
+            'name',
             'document',
         ]

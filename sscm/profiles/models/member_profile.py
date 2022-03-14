@@ -1,6 +1,7 @@
 from django.db import models
 
 from sscm.core.models import BaseModel
+from sscm.profiles.managers import MemberProfileManager
 
 
 class MemberProfile(BaseModel):
@@ -40,6 +41,7 @@ class MemberProfile(BaseModel):
         default=Status.ACTIVE,
         verbose_name="Status",
     )
+    objects = MemberProfileManager()
 
     class Meta:
         ordering = ["member_number"]

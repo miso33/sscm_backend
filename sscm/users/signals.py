@@ -38,7 +38,7 @@ from ..profiles.models import IndividualProfile, GroupProfile
 
 @receiver(post_save, sender=IndividualProfile)
 def my_callback(sender, instance, created, *args, **kwargs):
-    if created:
+    if created and hasattr(instance, 'user'):
         Notification.objects.create(
             recipients=[settings.EMAIL_HOST_USER],
             body=f"Užívateľ: {instance.first_name} {instance.last_name} ({instance.user.email}) bol úspešne " \

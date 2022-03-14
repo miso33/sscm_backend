@@ -12,6 +12,9 @@ class DocumentListView(ListAPIView):
 
 
 class StudentListView(ListAPIView):
-    queryset = StudentProfile.objects.all()
+    # queryset = StudentProfile.objects.all()
     serializer_class = StudentReadProfileSerializer
     permission_classes = [ViewDjangoModelPermission]
+
+    def get_queryset(self):
+        return StudentProfile.objects.exclude(user=self.request.user)

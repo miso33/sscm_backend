@@ -6,8 +6,6 @@ from rest_framework import status
 from .factories import StudentProfileFactory, SchoolFactory, DocumentFactory
 from .models import StudentProfile, Document
 from ..core.tests import BaseAPITestCase
-from ..parishes.factories import ParishFactory
-from ..profiles.factories import MemberProfileFactory
 from ..users.factories import UserFactory
 
 
@@ -56,15 +54,20 @@ class StudentProfileAPITestCase(BaseAPITestCase):
 
     @pytest.mark.student
     def test_list(self):
-        self.login_with_all_permissions(user=UserFactory())
-        StudentProfileFactory.create_batch(10)
+        students = StudentProfileFactory.create_batch(10)
+        self.login_with_all_permissions(user=students[0].user)
         response = self.client.get(
             path=reverse("student-list"),
         )
+        for student in response.json():
+            self.assertNotEqual(
+                student["id"],
+                students[0].id
+            )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             len(response.json()),
-            StudentProfile.objects.count()
+            StudentProfile.objects.count() - 1
         )
 
     @pytest.mark.student

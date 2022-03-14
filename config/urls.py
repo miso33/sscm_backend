@@ -41,7 +41,7 @@ urlpatterns = (
             path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
             path("parishes/", ParishList.as_view(), name="parish-list"),
             path("death_note/", DeathNoticeCreateView.as_view(), name="death-note-create"),
-            path("student/", StudentListView.as_view(), name="student-list"),
+            path("exchange/",  include("sscm.exchanges.urls")),
             path("verify-email/", VerifyEmailView.as_view(), name="rest_verify_email"),
             path(
                 "dj-rest-auth/account-confirm-email/",

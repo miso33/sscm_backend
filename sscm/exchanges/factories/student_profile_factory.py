@@ -27,7 +27,7 @@ class StudentProfileFactory(factory.django.DjangoModelFactory):
     foreign_school = factory.SubFactory(SchoolFactory)
     first_name = factory.Sequence(lambda n: f'first_name {n + 1}')
     last_name = factory.Sequence(lambda n: f'last_name {n + 1}')
-    birth_date = factory.Sequence(lambda n: f'birth_date {n + 1}')
+    birth_date = factory.Sequence(lambda n: date.today() - timedelta(days=n + 1))
     home_country = "SK"
     residence_country = "DE"
     academic_year = factory.Sequence(lambda n: n + 1)

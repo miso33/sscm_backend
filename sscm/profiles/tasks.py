@@ -1,32 +1,40 @@
-import pytest
 from celery import shared_task
 from django.template.loader import render_to_string
-from django.utils.datetime_safe import datetime, date
-from django.conf import settings
+from django.utils.datetime_safe import datetime
 
 from sscm.notifications.models import Notification
-from sscm.profiles.models import IndividualProfile
+from sscm.profiles.models import IndividualProfile, MemberProfile
 
 
-@pytest.mark.birthday_wish_email
 @shared_task(name='create_birthday_emails')
 def create_birthday_list_emails():
-    individual_profiles = IndividualProfile.objects.filter(
-        birth_date__month=datetime.now().month + 1
-    ).order_by(
-        "birth_date"
-    )
-    if individual_profiles.exists():
-        Notification.objects.create(
-            recipients=["pokus"],
-            body=render_to_string(
-                "birthday_list_email.html",
-                {"profiles": individual_profiles.values("first_name", "last_name", "birth_date")}
-            )
-        )
+    pass
+    # individual_profiles = IndividualProfile.objects.filter(
+    #     birth_date__month=datetime.now().month + 1
+    # ).order_by(
+    #     "birth_date"
+    # )
+    # member_profiles = MemberProfile.objects.filter(
+    #     individual_profile__birth_date__month=datetime.now().month + 1
+    # ).order_by(
+    #     "individual_profile__birth_date"
+    # )
+    # print(member_profiles)
+    # if member_profiles.exists():
+    #     Notification.objects.create(
+    #         recipients=["pokus"],
+    #         body=render_to_string(
+    #             "birthday_list_email.html",
+    #             {
+    #                 "profiles": member_profiles.values(
+    #                     "individual_profile__first_name",
+    #                     "individual_profile__last_name", "individual_profile__birth_date"
+    #                 )
+    #             }
+    #         )
+    #     )
 
 
-@pytest.mark.birthday_wish_email
 @shared_task(name='birthday_wish_email')
 def create_birthday_wish_email():
     individual_profiles = IndividualProfile.objects.filter(

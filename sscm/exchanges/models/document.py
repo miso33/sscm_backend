@@ -5,6 +5,7 @@ from sscm.core.models import BaseModel
 
 
 class Document(BaseModel):
+    name = models.CharField(max_length=30, verbose_name="Názov")
     document = FilerFileField(verbose_name="Dokument", on_delete=models.CASCADE)
 
     class Meta:
@@ -14,4 +15,4 @@ class Document(BaseModel):
         verbose_name_plural = 'Dokumenty'
 
     def __str__(self):
-        return f'{self.document}'
+        return f'{self.name}'
