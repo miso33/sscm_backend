@@ -34,14 +34,13 @@ class YourForm(forms.ModelForm):
 
 @admin.register(StudentProfile)
 class StudentAdmin(BaseAdmin):
-    # exclude = ["member", "status_changed", "is_removed", "status"]
     form = YourForm
     list_display = [
         "first_name",
         "last_name",
         "home_school",
         "foreign_school",
-        "semester"
+        "semester",
     ]
 
     list_filter = ["semester", "home_country", "residence_country"]
@@ -90,6 +89,7 @@ class StudentAdmin(BaseAdmin):
                 email=request.POST["email"],
                 password=make_password("hesloheslo"),
                 type=User.Types.EXCHANGE,
+                username=request.POST["email"].split("@")[0]
             )
             user.groups.add(Group.objects.get(name="exchange"))
             obj.user = user

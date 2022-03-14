@@ -8,6 +8,7 @@ from django.utils.safestring import mark_safe
 
 from sscm.core.admin import BaseAdmin
 from .models import GroupProfile, IndividualProfile, MemberProfile
+from ..users.models import User
 
 UserModel = get_user_model()
 
@@ -96,6 +97,13 @@ class MemberProfileAdmin(BaseAdmin):
     ]
 
     list_filter = [DefaulterFilter]
+
+    def get_queryset(self, request):
+        return MemberProfile.objects.exclude(
+            Q(
+                students__user__type=User.Types.EXCHANGE,
+            )
+        )
 
     @admin.display(
         description='Používateľské meno',
