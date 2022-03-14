@@ -25,7 +25,7 @@ class YourForm(forms.ModelForm):
         choices=DEMO_CHOICES,
         label="Jazyky"
     )
-    email = forms.CharField()
+    email = forms.CharField(required=False)
 
     class Meta:
         model = StudentProfile
@@ -41,10 +41,17 @@ class StudentAdmin(BaseAdmin):
         "home_school",
         "foreign_school",
         "semester",
+        "user_type"
     ]
 
     list_filter = ["semester", "home_country", "residence_country"]
     search_fields = ["first_name", "last_name"]
+
+    @admin.display(
+        description='Typ užívateľa',
+    )
+    def user_type(self, obj):
+        return "Študent" if obj.user.type == User.Types.EXCHANGE else "Člen"
 
     def get_fields(self, request, obj=None):
         fields = [
@@ -93,8 +100,8 @@ class StudentAdmin(BaseAdmin):
             )
             user.groups.add(Group.objects.get(name="exchange"))
             obj.user = user
-            obj.status = StudentProfile.Status.INACTIVE
-            super(StudentAdmin, self).save_model(request, obj, form, change)
+            obj.status = StudentProfile.Status.ACTIVE
+        super(StudentAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(School)

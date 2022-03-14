@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
         "username",
         "is_staff",
         "date_joined",
-        # "type"
+        "type"
     )
 
     list_filter = ("is_staff", "is_active")

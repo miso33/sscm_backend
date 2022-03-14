@@ -7,8 +7,8 @@ from sscm.profiles.services import ReadProfileService
 
 class User(AbstractUser):
     class Types(models.TextChoices):
-        EXCHANGE = "EXCHANGE"
-        MEMBER = "MEMBER"
+        EXCHANGE = "EXCHANGE", "Študent"
+        MEMBER = "MEMBER", "Člen"
 
     base_type = Types.MEMBER
     type = models.CharField(
