@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     'mptt',
     'nested_admin',
     'django_admin_listfilter_dropdown',
+    "ckeditor"
 ]
 
 DRF_RECAPTCHA_TESTING_PASS = False
