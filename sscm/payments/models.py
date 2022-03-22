@@ -10,14 +10,15 @@ class Payment(BaseModel):
         CASH = "CASH", "Hotovosť"
         TRANSFER = "TRANSFER", "Prevod na účet"
 
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+    member = models.OneToOneField(
+        'profiles.MemberProfile',
         on_delete=models.CASCADE,
-        verbose_name="Užívateľské konto",
+        verbose_name="Člen",
         null=True,
         blank=True
     )
     date = models.DateField(verbose_name="Dátum")
+    year = models.IntegerField(verbose_name="Rok")
     sum = models.DecimalField(
         max_digits=7,
         decimal_places=2,
@@ -40,7 +41,7 @@ class Payment(BaseModel):
         ordering = ['-created']
         default_related_name = 'payments'
         indexes = [
-            models.Index(fields=['user']),
+            models.Index(fields=['member']),
             models.Index(fields=['date']),
             models.Index(fields=['method']),
         ]
@@ -48,4 +49,4 @@ class Payment(BaseModel):
         verbose_name_plural = 'Platby'
 
     def __str__(self):
-        return f'{self.user.email}'
+        return f'{self.member.member_number}'

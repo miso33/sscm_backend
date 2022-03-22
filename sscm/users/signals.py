@@ -11,46 +11,32 @@ from ..profiles.models import IndividualProfile, GroupProfile
 
 
 # @receiver(pre_save, sender=User)
-# def my_callback(sender, instance, *args, **kwargs):
-#     print("post_save user")
-#
-#
-# @receiver(post_save, sender=StudentProfile)
-# def my_callback(sender, instance, *args, **kwargs):
-#     print("post_save")
-#
-#
-# @receiver(pre_save, sender=StudentProfile)
-# def my_callback(sender, instance, *args, **kwargs):
-#     print("SIGNAL")
+# def add_user_to_public_group(sender, instance, *args, **kwargs):
 #     try:
-#         old_student_profile = StudentProfile.objects.get(id=instance.id)
-#         # print(instance.user.type == User.Types.EXCHANGE)
-#         # print(old_student_profile.parish)
-#         if instance.user.type == User.Types.EXCHANGE and not old_student_profile.parish:
-#             # print("tunak")
-#             instance.user.type = User.Types.MEMBER
-#             instance.status = StudentProfile.Status.ACTIVE
-#     except ObjectDoesNotExist:
-#         # print("ObjectDoesNotExist")
-#         pass
+#         volunteer_group = Group.objects.get(name="volunteer")
+#         if hasattr(instance, "volunteer_profile") and volunteer_group not in instance.groups.all():
+#             instance.groups.add(volunteer_group)
+#         if hasattr(instance, "name"):
+#             instance.groups.add(Group.objects.get(name="organization"))
 #
+#     except ObjectDoesNotExist as error:
+#         logger.exception(error)
 
 @receiver(post_save, sender=IndividualProfile)
-def my_callback(sender, instance, created, *args, **kwargs):
-    if created and hasattr(instance, 'user'):
+def add_individual(sender, instance, created, *args, **kwargs):
+    if created and instance.user is not None:
         Notification.objects.create(
-            recipients=[settings.EMAIL_HOST_USER],
+            recipients=["info@sscm.sk", "cyrilametod.sk@gmail.com", "annasevkova@azet.sk"],
             body=f"Užívateľ: {instance.first_name} {instance.last_name} ({instance.user.email}) bol úspešne " \
                  f"zaregistrovaný."
         )
 
 
 @receiver(post_save, sender=GroupProfile)
-def my_callback(sender, instance, created, *args, **kwargs):
-    if created:
+def add_group(sender, instance, created, *args, **kwargs):
+    if created and instance.user is not None:
         Notification.objects.create(
-            recipients=[settings.EMAIL_HOST_USER],
+            recipients=["info@sscm.sk", "cyrilametod.sk@gmail.com", "annasevkova@azet.sk"],
             body=f"""
                     Skupina: {instance.name} ({instance.user.email})
                     bola úspešne zaregistrovaná.

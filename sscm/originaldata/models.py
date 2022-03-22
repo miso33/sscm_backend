@@ -4,6 +4,13 @@ from sscm.core.models import BaseModel
 
 
 class OriginalMember(BaseModel):
+    member = models.OneToOneField(
+        'profiles.MemberProfile',
+        on_delete=models.CASCADE,
+        verbose_name="Člen",
+        null=True,
+        blank=True
+    )
     firstname = models.CharField(max_length=100, blank=True, verbose_name="Krstné meno")
     surname = models.CharField(max_length=100, blank=True, verbose_name="Priezvisko")
     titul = models.CharField(max_length=50, blank=True, verbose_name="Titul pred menom")
@@ -21,7 +28,7 @@ class OriginalMember(BaseModel):
     poznamka = models.CharField(max_length=1000, blank=True, verbose_name="Poznámka")
     leave_date = models.DateField(null=True, blank=True, verbose_name="Dátum vyradenia")
     death_date = models.DateField(null=True, blank=True, verbose_name="Dátum úmrtia")
-
+    email = models.CharField(max_length=100, blank=True, verbose_name="E-mail")
 
     class Meta:
         ordering = ["surname"]

@@ -94,3 +94,17 @@ class UserUpdateAPITestCase(UserAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json()["type"], User.Types.MEMBER)
         self.assertEqual(response.json()["profile"]['status'], StudentProfile.Status.ACTIVE)
+
+    @pytest.mark.user_update
+    def test_password_change(self):
+        user = UserFactory()
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            path=reverse("rest_password_change"),
+            data={
+                "new_password1": "password*2",
+                "new_password2": "password*2",
+                # "old_password": "password*1",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

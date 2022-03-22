@@ -8,11 +8,10 @@ from ..core.admin import BaseAdmin
 class SponsorAdmin(BaseAdmin):
     exclude = ("status_changed", "is_removed", "status")
     list_display = [
-        "first_name",
-        "last_name",
+        "name",
         "city",
     ]
-    search_fields = ["first_name", "last_name"]
+    search_fields = ["name"]
 
 
 @admin.register(Payment)

@@ -1,7 +1,6 @@
 from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
-from django_countries import Countries
 
 from sscm.core.countries import SponsorCountries
 from sscm.core.models import BaseModel
@@ -13,9 +12,8 @@ class Sponsor(BaseModel):
         DE = "DE", "Nemčina"
         EN = "EN", "Angličtina"
 
-    first_name = models.CharField(max_length=30, verbose_name="Krstné meno")
-    last_name = models.CharField(max_length=30, verbose_name="Priezvisko")
-    birth_date = models.DateField(verbose_name="Dátum narodenia")
+    name = models.CharField(max_length=30, verbose_name="Názov")
+    birth_date = models.DateField(verbose_name="Dátum narodenia", blank=True, null=True)
     address = models.CharField(max_length=500, verbose_name="Adresa", blank=True)
     city = models.CharField(max_length=500, verbose_name="Mesto", blank=True)
     country = CountryField(verbose_name="Krajina", countries=SponsorCountries)
@@ -31,14 +29,13 @@ class Sponsor(BaseModel):
     )
 
     class Meta:
-        ordering = ['last_name']
+        ordering = ['name']
         default_related_name = 'sponsors'
         indexes = [
-            models.Index(fields=['first_name']),
-            models.Index(fields=['last_name']),
+            models.Index(fields=['name']),
         ]
         verbose_name = 'Sponzor'
         verbose_name_plural = 'Sponzori'
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.name}'

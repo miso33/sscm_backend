@@ -6,6 +6,7 @@ from .models import DeathNotice
 
 @admin.register(DeathNotice)
 class DeathNoticeAdmin(BaseAdmin):
+    exclude = ("status_changed", "is_removed", "status")
     list_display = (
         "sender",
         "first_name",

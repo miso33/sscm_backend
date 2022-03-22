@@ -9,7 +9,7 @@ from rangefilter.filters import DateRangeFilter
 class PaymentAdmin(BaseAdmin):
     exclude = ("status_changed", "is_removed", "status")
     list_display = [
-        "user",
+        "member",
         "date",
         "sum",
         "method",
@@ -24,9 +24,9 @@ class PaymentAdmin(BaseAdmin):
         ('date', DateRangeFilter)
     ]
     search_fields = [
-        'user__individual_profile__first_name',
-        'user__individual_profile__last_name',
-        'user__group_profile__name',
-        'user__student_profile__first_name',
-        'user__student_profile__last_name',
+        'member__individual_profile__first_name',
+        'member__individual_profile__last_name',
+        'member__group_profile__name',
+        'member__students__first_name',
+        'member__students__last_name',
     ]

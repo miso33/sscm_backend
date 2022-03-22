@@ -50,6 +50,7 @@ THIRD_PARTY_APPS = [
     'filer',
     'mptt',
     'nested_admin',
+    'django_admin_listfilter_dropdown',
 ]
 
 DRF_RECAPTCHA_TESTING_PASS = False
@@ -213,6 +214,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+REST_AUTH_PW_RESET_USE_SITES_DOMAIN = True
+
 SITE_ID = 1
 
 STATIC_URL = env("STATIC_URL")
