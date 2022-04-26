@@ -34,7 +34,7 @@ class StudentProfile(MemberProfile):
     last_name = models.CharField(max_length=50, verbose_name="Priezvisko")
     birth_date = models.DateField(max_length=500, verbose_name="Dátum narodenia")
     home_country = CountryField(verbose_name="Domáca krajina", countries=ExchangeCountries)
-    residence_country = CountryField(verbose_name="Krajina pobytu", countries=ExchangeCountries)
+    residence_country = CountryField(verbose_name="Krajina, do ktorej bol vymenený", countries=ExchangeCountries)
     academic_year = models.IntegerField(null=True, blank=True, verbose_name="Školský rok pobytu")
     semester = models.CharField(
         choices=Semester.choices,
@@ -46,8 +46,9 @@ class StudentProfile(MemberProfile):
     start = models.DateField(null=True, verbose_name="Dátum začiatku")
     end = models.DateField(null=True, verbose_name="Dátum konca")
     phone_number = PhoneNumberField(verbose_name="Mobilné číslo")
-    university_name = models.CharField(max_length=500, blank=True, verbose_name="Názov univerzity")
-    university_country = CountryField(blank=True, countries=ExchangeCountries, verbose_name="Krajina univerzity")
+    university_name = models.CharField(max_length=500, blank=True, verbose_name="Univerzita, do ktorej bol vymenený")
+    university_country = CountryField(blank=True, countries=ExchangeCountries,
+                                      verbose_name="Krajina univerzity, do ktorej bol vymenený")
     study_filed = models.CharField(max_length=500, blank=True, verbose_name="Študijný odbor")
     profession = models.CharField(max_length=500, blank=True, verbose_name="Povolanie")
     language = models.JSONField(verbose_name="Jazyky")

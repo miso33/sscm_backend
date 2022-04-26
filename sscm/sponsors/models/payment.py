@@ -45,4 +45,4 @@ class Payment(BaseModel):
         verbose_name_plural = 'Platby'
 
     def __str__(self):
-        return f'{self.sponsor.first_name} {self.sponsor.last_name} {self.date}'
+        return f'{self.sponsor.name}  {self.date}'

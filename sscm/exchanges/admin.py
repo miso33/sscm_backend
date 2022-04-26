@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
+
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
@@ -19,13 +21,13 @@ class DocumentAdmin(BaseAdmin):
     pass
 
 
-class YourForm(forms.ModelForm):
+class StudentProfileForm(forms.ModelForm):
     language = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         choices=DEMO_CHOICES,
         label="Jazyky"
     )
-    email = forms.CharField(required=False)
+    email = forms.CharField()
 
     class Meta:
         model = StudentProfile
@@ -34,7 +36,7 @@ class YourForm(forms.ModelForm):
 
 @admin.register(StudentProfile)
 class StudentAdmin(BaseAdmin):
-    form = YourForm
+    form = StudentProfileForm
     list_display = [
         "first_name",
         "last_name",
@@ -47,6 +49,9 @@ class StudentAdmin(BaseAdmin):
     list_filter = ["semester", "home_country", "residence_country"]
     search_fields = ["first_name", "last_name"]
 
+    def email(self, obj):
+        return obj.user.email
+
     @admin.display(
         description='Typ užívateľa',
     )
@@ -55,6 +60,7 @@ class StudentAdmin(BaseAdmin):
 
     def get_fields(self, request, obj=None):
         fields = [
+            'email',
             'first_name',
             'last_name',
             'birth_date',
@@ -72,9 +78,7 @@ class StudentAdmin(BaseAdmin):
             "study_filed",
             "language"
         ]
-        if obj is None:
-            fields = ["email"] + fields
-        if request.user.is_superuser or "staff" in request.user.groups.all():
+        if request.user.is_superuser or request.user.groups.filter(name="staff").exists():
             fields += [
                 "parish",
                 "member_number",
@@ -92,16 +96,25 @@ class StudentAdmin(BaseAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            user = User.objects.create(
-                email=request.POST["email"],
-                password=make_password("hesloheslo"),
-                type=User.Types.EXCHANGE,
-                username=request.POST["email"].split("@")[0]
-            )
-            user.groups.add(Group.objects.get(name="exchange"))
-            obj.user = user
-            obj.status = StudentProfile.Status.ACTIVE
+            try:
+                user = User.objects.create(
+                    email=request.POST["email"],
+                    password=make_password("hesloheslo"),
+                    type=User.Types.EXCHANGE,
+                    username=request.POST["email"].split("@")[0]
+                )
+                user.groups.add(Group.objects.get(name="exchange"))
+                obj.user = user
+                obj.status = StudentProfile.Status.ACTIVE
+            except ObjectDoesNotExist:
+                raise Exception("Group does not exists")
+
         super(StudentAdmin, self).save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields + ('email',)
+        return self.readonly_fields
 
 
 @admin.register(School)
